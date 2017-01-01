@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf8" ?>
+<settings>
+<phone-settings>
+<language perm="RW">Greek</language>
+<tone_scheme perm="RW">AUS</tone_scheme>
+<date_us_format perm="">off</date_us_format>
+<filter_registrar perm="RW">off</filter_registrar>
+<timezone perm="R">GRC+2</timezone>
+<user_phone perm="R">off</user_phone>
+<challenge_reboot perm="">off</challenge_reboot>
+<challenge_checksync perm="">off</challenge_checksync>
+<logon_wizard perm="R">false</logon_wizard>
+<call_join_xfer perm="RW">off</call_join_xfer>
+<ntp_server perm="R">192.168.3.1</ntp_server>
+<block_url_dialing perm="RW">on</block_url_dialing>
+<dkey_snom perm="RW">speed **</dkey_snom>
+<ringer_animation perm="">off</ringer_animation>
+<callpickup_dialoginfo perm="">on</callpickup_dialoginfo>
+</phone-settings>
+<dialplan>
+</dialplan>
+</settings>

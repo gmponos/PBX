@@ -1,0 +1,31 @@
+USE `fop2`;
+
+CREATE TABLE `visual_phonebook` (
+  `id` int(11) NOT NULL auto_increment,
+  `firstname` varchar(50) default NULL,
+  `lastname` varchar(50) default NULL,
+  `company` varchar(100) default NULL,
+  `phone1` varchar(50) default NULL,
+  `phone2` varchar(50) default NULL,
+  `owner` varchar(50) default '',
+  `private` enum('yes','no') default 'no',
+  `picture` varchar(100) default NULL,
+  `context` varchar(150) default '',
+  PRIMARY KEY  (`id`),
+  KEY `search` (`firstname`,`lastname`,`company`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `fop2recordings` (
+  `id` int(11) NOT NULL auto_increment,
+  `uniqueid` varchar(50) default NULL,
+  `datetime` datetime default NULL,
+  `ownerextension` varchar(20) default NULL,
+  `targetextension` varchar(20) default NULL,
+  `filename` tinytext,
+  `duration` int(11) default '0',
+  PRIMARY KEY  (`id`),
+  KEY `search` (`ownerextension`,`targetextension`,`datetime`,`duration`),
+  UNIQUE KEY `uni` (`uniqueid`)
+)
+
+

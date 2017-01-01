@@ -1,0 +1,158 @@
+ul#tabnav
+{
+	background-color:#C8CFAD;
+	border-top:2px solid #B1BA8D;
+	display:block;
+	height:37px;
+	line-height:37px;
+	margin:0;
+	padding:0;
+}
+
+ul#tabnav li
+{
+	float:left;
+	height:35px;
+	list-style-type:none;
+	margin:0;
+	padding:0;
+	position:relative;
+}
+
+ul#tabnav li a
+{
+	border-radius:5px 5px 0 0;
+	color:#4D5431;
+	display:block;
+	float:left;
+	font-size:16px;
+	font-weight:700;
+	height:35px;
+	line-height:35px;
+	margin:0 0 0 5px;
+	padding:0 6px;
+	position:relative;
+	text-decoration:none;
+}
+
+ul#tabnav li a:hover,ul#tab li a.active
+{
+	background:#EAE6C9 none repeat scroll 0;
+}
+
+.tabselected
+{
+	background:#EAE6C9 none repeat scroll 0;
+	border-bottom:2px solid #EAE6C9;
+}
+
+.tabhover
+{
+	background:#FFFF20 none repeat scroll 0;
+}
+
+.panel
+{
+	background:#EAE6C9 none repeat scroll 0;
+	border-bottom:2px solid #CCB;
+	border-left:5px solid #CCB;
+	border-right:5px solid #CCB;
+	display:block;
+	padding:5px;
+	margin-top:-2px;
+    font-size:90%;
+}
+
+.downloadicon
+{
+	background:url(../images/sprites01.png);
+	background-position:0 -416px;
+	background-repeat:no-repeat;
+	cursor:pointer;
+	float:left;
+	height:16px;
+	margin-top:2px;
+	width:16px;
+}
+
+.playicon
+{
+	background:url(../images/sprites01.png);
+	background-position:0 -384px;
+	background-repeat:no-repeat;
+	cursor:pointer;
+	float:left;
+	height:16px;
+	margin-top:2px;
+	width:16px;
+}
+
+.waiticon
+{
+	background:url(../images/sprites01.png);
+	background-position:0 -80px;
+	background-repeat:no-repeat;
+	cursor:wait;
+	height:16px;
+	margin-top:2px;
+	width:16px;
+}
+
+.pauseicon
+{
+	background:url(../images/sprites01.png);
+	background-position:0 -400px;
+	background-repeat:no-repeat;
+	cursor:pointer;
+	float:left;
+	height:16px;
+	margin-top:2px;
+	width:16px;
+}
+
+.trashemptyicon
+{
+	background:url(../images/toolbar/trash.png);
+	background-repeat:no-repeat;
+	float:right;
+	height:32px;
+	margin-right:10px;
+	margin-top:3px;
+	width:32px;
+}
+
+.trashfullicon
+{
+	background:url(../images/toolbar/trashfull.png);
+	background-repeat:no-repeat;
+	float:right;
+	height:32px;
+	margin-right:10px;
+	margin-top:3px;
+	width:32px;
+}
+
+.alt-data-row
+{
+	background-color:#DAD6B9;
+	left:0;
+	position:relative;
+	top:0;
+	z-index:0;
+}
+
+.data-row
+{
+	background-color:#e0e0B0;
+	left:0;
+	position:relative;
+	top:0;
+	z-index:0;
+}
+
+#vmailcontainer
+{
+	background:#EAE6C9;
+	margin:0;
+	padding:0;
+}

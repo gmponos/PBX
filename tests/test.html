@@ -1,0 +1,450 @@
+
+<link media="screen" type="text/css" href="test.css" rel="Stylesheet"/>
+<div class="Left">
+      <div class="col">
+      	<script type="text/javascript">
+var xajaxRequestUri="http://demo.voiceone.it/voiceone/settings/extensions/edit/?id=195";
+var xajaxDebug=false;
+var xajaxStatusMessages=false;
+var xajaxWaitCursor=true;
+var xajaxDefinedGet=0;
+var xajaxDefinedPost=1;
+var xajaxLoaded=false;
+function xajax_addCid(){return xajax.call("addCid", arguments, 1);}
+function xajax_delCidRow(){return xajax.call("delCidRow", arguments, 1);}
+function xajax_roll(){return xajax.call("roll", arguments, 1);}
+function xajax_processFormData(){return xajax.call("processFormData", arguments, 1);}
+	</script>
+	<script src="../../../admin/lib/xajax/xajax_js/xajax.js" type="text/javascript"/>
+	<script type="text/javascript">
+window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Javascript file could not be included. Perhaps the URL is incorrect?\nURL: ../../../admin/lib/xajax/xajax_js/xajax.js'); } }, 6000);
+	</script>
+  <div class="SectionHeader">
+    <div style="float: right;" id="loading"/>
+    <h1>Modify extension 1000 <aaaa eduardo></h1>
+    <h3><a class="admin" href="../">Return without save</a></h3>
+  </div>
+  <div id="alert"/>
+  <div id="basic_form">
+    <form method="post" action="/voiceone/settings/extensions/edit/index.php" id="mainform">
+      <table>
+        <tbody><tr>
+          <td>
+            <p class="blockintro">Personal information</p>
+            <div class="block">
+              <dl>
+                <dt class="required"><label for="client[name]">Name:</label></dt>
+                <dd><input type="text" value="aaaa" name="client[name]" id="client[name]" maxlength="30" size="25"/><span id="nameErr"/></dd>
+                <dt class="required"><label for="client[surname]">Surname:</label></dt>
+                <dd><input type="text" value="eduardo" name="client[surname]" id="client[surname]" maxlength="50" size="25"/><span id="surnameErr"/></dd>
+                <dt class="required"><label for="client[extension]">Extension:</label></dt>
+                <dd><input type="text" onblur="document.getElementById('client[username]').value=this.value;" onkeyup="document.getElementById('client[username]').value=this.value;" value="1000" name="client[extension]" id="client[extension]" maxlength="20" size="25"/><span id="extensionErr"/></dd>
+                <dt class="required"><label for="client[language]">Language:</label></dt>
+                <dd><select name="client[language]" id="client[language]"><option value="de">de</option>
+<option value="ru">ru</option>
+<option value="pl">pl</option>
+<option value="en">en</option>
+<option value="es">es</option>
+<option selected="selected" value="it">it</option>
+</select></dd>
+              </dl>
+            </div>
+          </td>
+          <td>
+            <p class="blockintro">Account Information</p>
+            <div class="block">
+              <dl>
+                <dt class="required"><label for="client[username]">Username:</label></dt>
+                <dd><input type="text" disabled="disabled" value="1000" name="client[username]" id="client[username]" maxlength="20" size="25"/><span id="usernameErr"/></dd>
+                <dt class="required"><label for="client[password]">Password:</label></dt>
+                <dd><input type="password" value="1000" name="client[password]" id="client[password]" maxlength="20" size="25"/><span id="passwordErr"/></dd>
+                <dt class="required"><label for="client[confirm]">Confirm:</label></dt>
+                <dd><input type="password" value="1000" name="client[confirm]" id="client[confirm]" maxlength="20" size="25"/><span id="confirmErr"/></dd>
+                <dt class="required"><label for="client[alias]">Alias:</label></dt>
+                <dd><input type="text" value="" name="client[alias]" id="client[alias]" maxlength="100" size="25"/><span id="aliasErr"/></dd>
+              </dl>
+            </div> 
+          </td>
+        </tr>
+      </tbody></table>
+      
+    	<h2>Technology</h2>
+      <p class="blockintro">
+                Choose the technology: <select onchange="do_changeTech(this.value,'3','','',1,'1')" name="technology" id="techSelect"><option value="1">SIP</option>
+<option value="2">IAX2</option>
+<option selected="selected" value="3">mISDN</option>
+<option value="4">Srx</option>
+<option value="5">Zap</option>
+</select>
+      </p>
+      <div class="block">
+        <div id="techPanel"><table>      <tbody><tr>
+        <td class="colOption"> <label class="required" id="label_context">Rule set:</label></td>
+        <td> <div class="show" id="on_context"><select id="context" name="option_12"><option value="ppip"> ppip </option><option value="ppip"> ppip </option><option value="dafsd"> dafsd </option><option value="pippo"> pippo </option><option value="TestRules"> TestRules </option><option selected="selected" value="SIPGate"> SIPGate </option><option value="ooo"> ooo </option><option value="outgoing_rule_test"> outgoing_rule_test </option><option value="test"> test </option><option value="DefaultOutgoingRule"> DefaultOutgoingRule </option><option value="AnanthOutingRule"> AnanthOutingRule </option><option value="testing"> testing </option></select></div> <div class="hide" id="off_context">SIPGate</div> <input type="hidden" value="1" id="status_12" name="status_12"/> </td>
+     </tr>
+      <tr><td class="help"><div class="show" id="help_context">Define your default context here</div></td><td/></tr>
+      <tr>
+        <td class="colOption"> <label class="required" id="label_ports">Ports:</label></td>
+        <td> <div class="show" id="on_ports"/> <div class="hide" id="off_ports"/> <input type="hidden" value="1" id="status_13" name="status_13"/> </td>
+     </tr>
+      <tr><td class="help"><div class="show" id="help_ports">Choose the port connected to the terminal equipment</div></td><td/></tr>
+<tr><td colspan="2"><a onclick="return showHide('advanced_options');" href="#" class="admin">Show advanced option</a></td></tr>
+</tbody></table><table id="advanced_options">
+      <tbody><tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'language',14,'/voiceone/admin/');" class="OFF"><img alt="" src="/voiceone/admin//public/img/checkbox_ok.gif"/></a> <label class="required" id="label_language">Language:</label></td>
+        <td> <div class="show" id="on_language"><select id="language" name="option_14"><option selected="selected" value="en"> en  (default) </option><option value="it"> it </option><option value="de"> de </option><option value="fr"> fr </option><option value="es"> es </option></select></div> <div class="hide" id="off_language">en</div> <input type="hidden" value="1" id="status_14" name="status_14"/> </td>
+     </tr>
+      <tr><td class="help"><div class="show" id="help_language">Language</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'musicclass',15,'/voiceone/admin/');" class="OFF"><img alt="" src="/voiceone/admin//public/img/checkbox_ok.gif"/></a> <label class="required" id="label_musicclass">Musicclass:</label></td>
+        <td> <div class="show" id="on_musicclass"><select id="musicclass" name="option_15"><option value="es">default</option></select></div> <div class="hide" id="off_musicclass">es</div> <input type="hidden" value="1" id="status_15" name="status_15"/> </td>
+     </tr>
+      <tr><td class="help"><div class="show" id="help_musicclass">Sets the musiconhold class</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'senddtmf',16,'/voiceone/admin/');" class="OFF"><img alt="" src="/voiceone/admin//public/img/checkbox_ok.gif"/></a> <label class="required" id="label_senddtmf">Senddtmf:</label></td>
+        <td> <div class="show" id="on_senddtmf"><input type="radio" checked="checked" value="yes" name="option_16" id="senddtmf"/> yes  (default) <input type="radio" value="no" name="option_16" id="senddtmf"/> no </div> <div class="hide" id="off_senddtmf">yes</div> <input type="hidden" value="1" id="status_16" name="status_16"/> </td>
+     </tr>
+      <tr><td class="help"><div class="show" id="help_senddtmf">Either if we should produce DTMF Tones ourselve</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'far_alerting',17,'/voiceone/admin/');" class="OFF"><img alt="" src="/voiceone/admin//public/img/checkbox_ok.gif"/></a> <label class="required" id="label_far_alerting">Far alerting:</label></td>
+        <td> <div class="show" id="on_far_alerting"><input type="radio" value="yes" name="option_17" id="far_alerting"/> yes <input type="radio" checked="checked" value="no" name="option_17" id="far_alerting"/> no  (default) </div> <div class="hide" id="off_far_alerting">no</div> <input type="hidden" value="1" id="status_17" name="status_17"/> </td>
+     </tr>
+      <tr><td class="help"><div class="show" id="help_far_alerting">If we should generate Ringing for chan_sip and others</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'allowed_bearers',18,'/voiceone/admin/');" class="OFF"><img alt="" src="/voiceone/admin//public/img/checkbox_ok.gif"/></a> <label class="required" id="label_allowed_bearers">Allowed bearers:</label></td>
+        <td> <div class="show" id="on_allowed_bearers"><input type="text" value="all" name="option_18" id="allowed_bearers" maxlength="100" size="25"/></div> <div class="hide" id="off_allowed_bearers">all</div> <input type="hidden" value="1" id="status_18" name="status_18"/> </td>
+     </tr>
+      <tr><td class="help"><div class="show" id="help_allowed_bearers">here you can define which bearers should be allowed</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'nationalprefix',19,'/voiceone/admin/');" class="OFF"><img alt="" src="/voiceone/admin//public/img/checkbox_ok.gif"/></a> <label class="required" id="label_nationalprefix">Nationalprefix:</label></td>
+        <td> <div class="show" id="on_nationalprefix"><input type="text" value="0" name="option_19" id="nationalprefix" maxlength="100" size="25"/></div> <div class="hide" id="off_nationalprefix">0</div> <input type="hidden" value="1" id="status_19" name="status_19"/> </td>
+     </tr>
+      <tr><td class="help"><div class="show" id="help_nationalprefix">Prefixes for national and international, those are putted before the oad if an according dialplan is set by the other end.</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'internationalprefix',20,'/voiceone/admin/');" class="OFF"><img alt="" src="/voiceone/admin//public/img/checkbox_ok.gif"/></a> <label class="required" id="label_internationalprefix">Internationalprefix:</label></td>
+        <td> <div class="show" id="on_internationalprefix"><input type="text" value="00" name="option_20" id="internationalprefix" maxlength="100" size="25"/></div> <div class="hide" id="off_internationalprefix">00</div> <input type="hidden" value="1" id="status_20" name="status_20"/> </td>
+     </tr>
+      <tr><td class="help"><div class="show" id="help_internationalprefix">Prefixes for national and international, those are putted before the oad if an according dialplan is set by the other end.</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'rxgain',21,'/voiceone/admin/');" class="OFF"><img alt="" src="/voiceone/admin//public/img/checkbox_ok.gif"/></a> <label class="required" id="label_rxgain">Rxgain:</label></td>
+        <td> <div class="show" id="on_rxgain"><input type="text" value="0" name="option_21" id="rxgain" maxlength="100" size="25"/></div> <div class="hide" id="off_rxgain">0</div> <input type="hidden" value="1" id="status_21" name="status_21"/> </td>
+     </tr>
+      <tr><td class="help"><div class="show" id="help_rxgain">Set rx gains between -8 and 8 to change the RX Gain</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'txgain',22,'/voiceone/admin/');" class="ON"><img alt="" src="/voiceone/admin//public/img/checkbox.gif"/></a> <label class="commented" id="label_txgain">Txgain:</label></td>
+        <td> <div class="hide" id="on_txgain"><input type="text" value="0" name="option_22" id="txgain" maxlength="100" size="25"/></div> <div class="show" id="off_txgain">0</div> <input type="hidden" value="0" id="status_22" name="status_22"/> </td>
+     </tr>
+      <tr><td class="help"><div class="hide" id="help_txgain">Set tx gains between -8 and 8 to change the TX Gain</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'te_choose_channel',23,'/voiceone/admin/');" class="ON"><img alt="" src="/voiceone/admin//public/img/checkbox.gif"/></a> <label class="commented" id="label_te_choose_channel">Te choose channel:</label></td>
+        <td> <div class="hide" id="on_te_choose_channel"><input type="radio" value="yes" name="option_23" id="te_choose_channel"/> yes <input type="radio" checked="checked" value="no" name="option_23" id="te_choose_channel"/> no  (default) </div> <div class="show" id="off_te_choose_channel">no</div> <input type="hidden" value="0" id="status_23" name="status_23"/> </td>
+     </tr>
+      <tr><td class="help"><div class="hide" id="help_te_choose_channel">Some telcos especially in NL seem to need this set to yes, this is disabled by default, also in switzerland this seems to be important</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'pmp_l1_check',24,'/voiceone/admin/');" class="ON"><img alt="" src="/voiceone/admin//public/img/checkbox.gif"/></a> <label class="commented" id="label_pmp_l1_check">Pmp l1 check:</label></td>
+        <td> <div class="hide" id="on_pmp_l1_check"><input type="radio" checked="checked" value="yes" name="option_24" id="pmp_l1_check"/> yes  (default) <input type="radio" value="no" name="option_24" id="pmp_l1_check"/> no </div> <div class="show" id="off_pmp_l1_check">yes</div> <input type="hidden" value="0" id="status_24" name="status_24"/> </td>
+     </tr>
+      <tr><td class="help"><div class="hide" id="help_pmp_l1_check">This option defines, if chan_misdn should check the L1 on a PMP<br/>
+before makeing a group call on it. The L1 may go down for PMP Ports<br/>
+so we might need this.<br/>
+But be aware! a broken or plugged off cable might be used for a group call<br/>
+as well, since chan_misdn has no chance to distinguish if the L1 is down<br/>
+because of a lost Link or because the Provider shut it down...</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'reject_cause',25,'/voiceone/admin/');" class="ON"><img alt="" src="/voiceone/admin//public/img/checkbox.gif"/></a> <label class="commented" id="label_reject_cause">Reject cause:</label></td>
+        <td> <div class="hide" id="on_reject_cause"><input type="text" value="16" name="option_25" id="reject_cause" maxlength="100" size="25"/></div> <div class="show" id="off_reject_cause">16</div> <input type="hidden" value="0" id="status_25" name="status_25"/> </td>
+     </tr>
+      <tr><td class="help"><div class="hide" id="help_reject_cause">in PMP this option defines which cause should be sent out to the 3. caller. chan_misdn does not support callwaiting on TE PMP side. This allows to modify the RELEASE_COMPLETE cause at least.</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'need_more_infos',26,'/voiceone/admin/');" class="ON"><img alt="" src="/voiceone/admin//public/img/checkbox.gif"/></a> <label class="commented" id="label_need_more_infos">Need more infos:</label></td>
+        <td> <div class="hide" id="on_need_more_infos"><input type="radio" value="yes" name="option_26" id="need_more_infos"/> yes <input type="radio" checked="checked" value="no" name="option_26" id="need_more_infos"/> no  (default) </div> <div class="show" id="off_need_more_infos">no</div> <input type="hidden" value="0" id="status_26" name="status_26"/> </td>
+     </tr>
+      <tr><td class="help"><div class="hide" id="help_need_more_infos">Send Setup_Acknowledge on incoming calls anyway (instead of PROCEEDING), this requests additional Infos, so we can waitfordigits without much issues. This works only for PTP Ports</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'nttimeout',27,'/voiceone/admin/');" class="OFF"><img alt="" src="/voiceone/admin//public/img/checkbox_ok.gif"/></a> <label class="required" id="label_nttimeout">Nttimeout:</label></td>
+        <td> <div class="show" id="on_nttimeout"><input type="radio" value="yes" name="option_27" id="nttimeout"/> yes <input type="radio" checked="checked" value="no" name="option_27" id="nttimeout"/> no  (default) </div> <div class="hide" id="off_nttimeout">no</div> <input type="hidden" value="1" id="status_27" name="status_27"/> </td>
+     </tr>
+      <tr><td class="help"><div class="show" id="help_nttimeout">set this to yes if you want to disconnect calls when a timeout occurs for example during the overlapdial phase</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'method',28,'/voiceone/admin/');" class="ON"><img alt="" src="/voiceone/admin//public/img/checkbox.gif"/></a> <label class="commented" id="label_method">Method:</label></td>
+        <td> <div class="hide" id="on_method"><input type="radio" checked="checked" value="standard" name="option_28" id="method"/> standard  (default) <input type="radio" value="round_robin" name="option_28" id="method"/> round_robin </div> <div class="show" id="off_method">standard</div> <input type="hidden" value="0" id="status_28" name="status_28"/> </td>
+     </tr>
+      <tr><td class="help"><div class="hide" id="help_method"> set the method to use for channel selection:<br/>
+standard - always choose the first free channel with the lowest number<br/>
+round_robin - use the round robin algorithm to select a channel. Use this if you want to balance your load.</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'dialplan',29,'/voiceone/admin/');" class="OFF"><img alt="" src="/voiceone/admin//public/img/checkbox_ok.gif"/></a> <label class="required" id="label_dialplan">Dialplan:</label></td>
+        <td> <div class="show" id="on_dialplan"><select id="dialplan" name="option_29"><option value="0"> 0  (default) </option><option value="1"> 1 </option><option value="2"> 2 </option><option selected="selected" value="4"> 4 </option></select></div> <div class="hide" id="off_dialplan">4</div> <input type="hidden" value="1" id="status_29" name="status_29"/> </td>
+     </tr>
+      <tr><td class="help"><div class="show" id="help_dialplan">Dialplan options:<br/>
+<br/>
+0 - unknown<br/>
+1 - National<br/>
+2 - International<br/>
+4 - Subscriber<br/>
+<br/>
+This setting is used for outgoing calls</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'localdialplan',30,'/voiceone/admin/');" class="OFF"><img alt="" src="/voiceone/admin//public/img/checkbox_ok.gif"/></a> <label class="required" id="label_localdialplan">Localdialplan:</label></td>
+        <td> <div class="show" id="on_localdialplan"><select id="localdialplan" name="option_30"><option selected="selected" value="0"> 0  (default) </option><option value="1"> 1 </option><option value="2"> 2 </option><option value="4"> 4 </option></select></div> <div class="hide" id="off_localdialplan">0</div> <input type="hidden" value="1" id="status_30" name="status_30"/> </td>
+     </tr>
+      <tr><td class="help"><div class="show" id="help_localdialplan">Dialplan options:<br/>
+<br/>
+0 - unknown<br/>
+1 - National<br/>
+2 - International<br/>
+4 - Subscriber<br/>
+<br/>
+This setting is used for outgoing calls</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'cpndialplan',31,'/voiceone/admin/');" class="ON"><img alt="" src="/voiceone/admin//public/img/checkbox.gif"/></a> <label class="commented" id="label_cpndialplan">Cpndialplan:</label></td>
+        <td> <div class="hide" id="on_cpndialplan"><select id="cpndialplan" name="option_31"><option selected="selected" value="0"> 0  (default) </option><option value="1"> 1 </option><option value="2"> 2 </option><option value="4"> 4 </option></select></div> <div class="show" id="off_cpndialplan">0</div> <input type="hidden" value="0" id="status_31" name="status_31"/> </td>
+     </tr>
+      <tr><td class="help"><div class="hide" id="help_cpndialplan">Dialplan options:<br/>
+<br/>
+0 - unknown<br/>
+1 - National<br/>
+2 - International<br/>
+4 - Subscriber<br/>
+<br/>
+This setting is used for outgoing calls</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'early_bconnect',32,'/voiceone/admin/');" class="ON"><img alt="" src="/voiceone/admin//public/img/checkbox.gif"/></a> <label class="commented" id="label_early_bconnect">Early bconnect:</label></td>
+        <td> <div class="hide" id="on_early_bconnect"><input type="radio" checked="checked" value="yes" name="option_32" id="early_bconnect"/> yes  (default) <input type="radio" value="no" name="option_32" id="early_bconnect"/> no </div> <div class="show" id="off_early_bconnect">yes</div> <input type="hidden" value="0" id="status_32" name="status_32"/> </td>
+     </tr>
+      <tr><td class="help"><div class="hide" id="help_early_bconnect">whether to connect to bchannel when getting proceeding</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'incoming_early_audio',33,'/voiceone/admin/');" class="ON"><img alt="" src="/voiceone/admin//public/img/checkbox.gif"/></a> <label class="commented" id="label_incoming_early_audio">Incoming early audio:</label></td>
+        <td> <div class="hide" id="on_incoming_early_audio"><input type="radio" value="yes" name="option_33" id="incoming_early_audio"/> yes <input type="radio" checked="checked" value="no" name="option_33" id="incoming_early_audio"/> no  (default) </div> <div class="show" id="off_incoming_early_audio">no</div> <input type="hidden" value="0" id="status_33" name="status_33"/> </td>
+     </tr>
+      <tr><td class="help"><div class="hide" id="help_incoming_early_audio">Turn this on if you like to send Tone Indications to a Incoming<br/>
+isdn channel on a TE Port. Rarely used, only if the Telco allows<br/>
+you to send indications by yourself, normally the Telco sends the<br/>
+indications to the remote party.</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'always_immediate',34,'/voiceone/admin/');" class="ON"><img alt="" src="/voiceone/admin//public/img/checkbox.gif"/></a> <label class="commented" id="label_always_immediate">Always immediate:</label></td>
+        <td> <div class="hide" id="on_always_immediate"><input type="radio" value="yes" name="option_34" id="always_immediate"/> yes <input type="radio" checked="checked" value="no" name="option_34" id="always_immediate"/> no  (default) </div> <div class="show" id="off_always_immediate">no</div> <input type="hidden" value="0" id="status_34" name="status_34"/> </td>
+     </tr>
+      <tr><td class="help"><div class="hide" id="help_always_immediate">Uncomment the following to get into s extension at extension conf<br/>
+there you can use DigitTimeout if you can't or don't want to use isdn overlap dial.<br/>
+Note: This will jump into the s exten for every exten !</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'nodialtone',35,'/voiceone/admin/');" class="ON"><img alt="" src="/voiceone/admin//public/img/checkbox.gif"/></a> <label class="commented" id="label_nodialtone">Nodialtone:</label></td>
+        <td> <div class="hide" id="on_nodialtone"><input type="radio" value="yes" name="option_35" id="nodialtone"/> yes <input type="radio" checked="checked" value="no" name="option_35" id="nodialtone"/> no  (default) </div> <div class="show" id="off_nodialtone">no</div> <input type="hidden" value="0" id="status_35" name="status_35"/> </td>
+     </tr>
+      <tr><td class="help"><div class="hide" id="help_nodialtone">Set this to yes if you want to generate your own dialtone with always_immediate=yes, else chan_misdn generates the dialtone!</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'immediate',36,'/voiceone/admin/');" class="ON"><img alt="" src="/voiceone/admin//public/img/checkbox.gif"/></a> <label class="commented" id="label_immediate">Immediate:</label></td>
+        <td> <div class="hide" id="on_immediate"><input type="radio" value="yes" name="option_36" id="immediate"/> yes <input type="radio" checked="checked" value="no" name="option_36" id="immediate"/> no  (default) </div> <div class="show" id="off_immediate">no</div> <input type="hidden" value="0" id="status_36" name="status_36"/> </td>
+     </tr>
+      <tr><td class="help"><div class="hide" id="help_immediate">Uncomment the following if you want callers which called exactly the base number (so no extension is set) jump to the s extension.<br/>
+If the user dials something more it jumps to the correct extension instead</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'hold_allowed',37,'/voiceone/admin/');" class="ON"><img alt="" src="/voiceone/admin//public/img/checkbox.gif"/></a> <label class="commented" id="label_hold_allowed">Hold allowed:</label></td>
+        <td> <div class="hide" id="on_hold_allowed"><input type="radio" value="yes" name="option_37" id="hold_allowed"/> yes <input type="radio" checked="checked" value="no" name="option_37" id="hold_allowed"/> no  (default) </div> <div class="show" id="off_hold_allowed">no</div> <input type="hidden" value="0" id="status_37" name="status_37"/> </td>
+     </tr>
+      <tr><td class="help"><div class="hide" id="help_hold_allowed">to have hold and retrieve support</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'callgroup',38,'/voiceone/admin/');" class="ON"><img alt="" src="/voiceone/admin//public/img/checkbox.gif"/></a> <label class="commented" id="label_callgroup">Callgroup:</label></td>
+        <td> <div class="hide" id="on_callgroup"><input type="text" value="0" name="option_38" id="callgroup" maxlength="100" size="25"/></div> <div class="show" id="off_callgroup">0</div> <input type="hidden" value="0" id="status_38" name="status_38"/> </td>
+     </tr>
+      <tr><td class="help"><div class="hide" id="help_callgroup">Pickup and Callgroup<br/>
+default values: not set = 0</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'pickupgroup',39,'/voiceone/admin/');" class="ON"><img alt="" src="/voiceone/admin//public/img/checkbox.gif"/></a> <label class="commented" id="label_pickupgroup">Pickupgroup:</label></td>
+        <td> <div class="hide" id="on_pickupgroup"><input type="text" value="0" name="option_39" id="pickupgroup" maxlength="100" size="25"/></div> <div class="show" id="off_pickupgroup">0</div> <input type="hidden" value="0" id="status_39" name="status_39"/> </td>
+     </tr>
+      <tr><td class="help"><div class="hide" id="help_pickupgroup">Pickup and Callgroup<br/>
+default values: not set = 0</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'presentation',40,'/voiceone/admin/');" class="ON"><img alt="" src="/voiceone/admin//public/img/checkbox.gif"/></a> <label class="commented" id="label_presentation">Presentation:</label></td>
+        <td> <div class="hide" id="on_presentation"><select id="presentation" name="option_40"><option value="0"> 0 </option><option value="1"> 1 </option><option selected="selected" value="-1"> -1  (default) </option></select></div> <div class="show" id="off_presentation">-1</div> <input type="hidden" value="0" id="status_40" name="status_40"/> </td>
+     </tr>
+      <tr><td class="help"><div class="hide" id="help_presentation">These are the exact isdn screening and presentation indicators<br/>
+If -1 is given for both values the presentation indicators are used<br/>
+from asterisks SetCallerPres application.<br/>
+s=0, p=0 -> callerid presented not screened<br/>
+s=1, p=1 -> callerid presented but screened (the remote end does not see it!)<br/>
+default value: p=-1</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'screen',41,'/voiceone/admin/');" class="ON"><img alt="" src="/voiceone/admin//public/img/checkbox.gif"/></a> <label class="commented" id="label_screen">Screen:</label></td>
+        <td> <div class="hide" id="on_screen"><select id="screen" name="option_41"><option value="0"> 0 </option><option value="1"> 1 </option><option selected="selected" value="-1"> -1  (default) </option></select></div> <div class="show" id="off_screen">-1</div> <input type="hidden" value="0" id="status_41" name="status_41"/> </td>
+     </tr>
+      <tr><td class="help"><div class="hide" id="help_screen">default value: s=-1</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'echocancel',42,'/voiceone/admin/');" class="OFF"><img alt="" src="/voiceone/admin//public/img/checkbox_ok.gif"/></a> <label class="required" id="label_echocancel">Echocancel:</label></td>
+        <td> <div class="show" id="on_echocancel"><select id="echocancel" name="option_42"><option value="0"> 0 </option><option value="32"> 32 </option><option value="64"> 64 </option><option selected="selected" value="128"> 128 </option><option value="256"> 256 </option><option value="yes"> yes </option><option value="no"> no  (default) </option></select></div> <div class="hide" id="off_echocancel">128</div> <input type="hidden" value="1" id="status_42" name="status_42"/> </td>
+     </tr>
+      <tr><td class="help"><div class="show" id="help_echocancel">This enables echocancelation, with the given number of taps<br/>
+Be aware, move this setting only to outgoing portgroups!<br/>
+A value of zero turns echocancellation off.</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'jitterbuffer',43,'/voiceone/admin/');" class="ON"><img alt="" src="/voiceone/admin//public/img/checkbox.gif"/></a> <label class="commented" id="label_jitterbuffer">Jitterbuffer:</label></td>
+        <td> <div class="hide" id="on_jitterbuffer"><input type="text" value="4000" name="option_43" id="jitterbuffer" maxlength="100" size="25"/></div> <div class="show" id="off_jitterbuffer">4000</div> <input type="hidden" value="0" id="status_43" name="status_43"/> </td>
+     </tr>
+      <tr><td class="help"><div class="hide" id="help_jitterbuffer"> chan_misdns jitterbuffer, default 4000</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'jitterbuffer_upper_threshold',44,'/voiceone/admin/');" class="ON"><img alt="" src="/voiceone/admin//public/img/checkbox.gif"/></a> <label class="commented" id="label_jitterbuffer_upper_threshold">Jitterbuffer upper threshold:</label></td>
+        <td> <div class="hide" id="on_jitterbuffer_upper_threshold"><input type="text" value="0" name="option_44" id="jitterbuffer_upper_threshold" maxlength="100" size="25"/></div> <div class="show" id="off_jitterbuffer_upper_threshold">0</div> <input type="hidden" value="0" id="status_44" name="status_44"/> </td>
+     </tr>
+      <tr><td class="help"><div class="hide" id="help_jitterbuffer_upper_threshold">Change this threshold to enable dejitter functionality</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'hdlc',45,'/voiceone/admin/');" class="ON"><img alt="" src="/voiceone/admin//public/img/checkbox.gif"/></a> <label class="commented" id="label_hdlc">Hdlc:</label></td>
+        <td> <div class="hide" id="on_hdlc"><input type="radio" value="yes" name="option_45" id="hdlc"/> yes <input type="radio" checked="checked" value="no" name="option_45" id="hdlc"/> no  (default) </div> <div class="show" id="off_hdlc">no</div> <input type="hidden" value="0" id="status_45" name="status_45"/> </td>
+     </tr>
+      <tr><td class="help"><div class="hide" id="help_hdlc">change this to yes, if you want to bridge a mISDN data channel to another channel type or to an application.</div></td><td/></tr>
+      <tr>
+        <td class="colOption"><a onclick="switchOnOff(this,'block_on_alarm',46,'/voiceone/admin/');" class="ON"><img alt="" src="/voiceone/admin//public/img/checkbox.gif"/></a> <label class="commented" id="label_block_on_alarm">Block on alarm:</label></td>
+        <td> <div class="hide" id="on_block_on_alarm"><input type="radio" value="yes" name="option_46" id="block_on_alarm"/> yes <input type="radio" checked="checked" value="no" name="option_46" id="block_on_alarm"/> no  (default) </div> <div class="show" id="off_block_on_alarm">no</div> <input type="hidden" value="0" id="status_46" name="status_46"/> </td>
+     </tr>
+      <tr><td class="help"><div class="hide" id="help_block_on_alarm">Undocumented.</div></td><td/></tr>
+</tbody></table></div>
+      </div>
+    <script>do_changeTech(document.getElementById('techSelect').value,'3','12=SIPGate|13=|14=en|15=es|16=yes|17=no|18=all|19=0|20=00|21=0|27=no|29=4|30=0|42=128','0',1,'1')</script>      
+      
+      <h2>VoiceMail</h2>
+      <p class="blockintro">Insert here the voicemail information</p>
+      <div class="block">
+        <dl>
+          <dt class="required"><label for="client[voicemailOn]">Active:</label></dt>
+          <dd>
+            <input type="radio" value="1" name="client[voicemailOn]" id="client[voicemailOn]"/> ON
+            <input type="radio" checked="checked" value="0" name="client[voicemailOn]" id="client[voicemailOn]"/> OFF
+          </dd>
+          <dt class="required"><label for="client[email]">Email:</label></dt>
+          <dd><input type="text" value="" name="client[email]" id="client[email]" maxlength="100" size="25"/> Email address (leave blank for no notification)</dd>
+          <dt class="required"><label for="client[vpassword]">Password:</label></dt>
+          <dd><input type="password" value="" name="client[vpassword]" id="client[vpassword]" maxlength="20" size="25"/><span id="vpasswordErr"/> Set the password to hear voicemail</dd>
+          <dt class="required"><label for="client[vconfirm]">Confirm:</label></dt>
+          <dd><input type="password" value="" name="client[vconfirm]" id="client[vconfirm]" maxlength="20" size="25"/><span id="vconfirmErr"/> Confirm the password to hear voicemail</dd>
+          <dt class="required"><label for="client[attach]">Attach:</label></dt>
+          <dd><input type="checkbox" value="1" name="client[attach]" id="client[attach]"/>
+          If enabled, the audio message will be sent as attachment to your email </dd>
+          <dt class="required"><label for="client[saycid]">Say CID:</label></dt>
+          <dd><input type="checkbox" value="1" name="client[saycid]" id="client[saycid]"/>
+          If enabled, the Caller ID will be included</dd>
+          <dt class="required"><label for="client[hidefromdir]">Hide:</label></dt>
+          <dd><input type="checkbox" value="1" name="client[hidefromdir]" id="client[hidefromdir]"/>
+          If enabled, you will be hidden from the directory</dd>
+        </dl>
+      </div>
+
+			<h2>Caller ID</h2>
+      <p class="blockintro">Set CID on outgoing trunks</p>
+      <div class="block">
+        <dl>
+          <dt class="required"><label for="trunklist">Trunk:</label></dt>
+          <dd><select name="trunklist" id="trunklist"><option value="185" id="185_opt">SIP/proba</option><option value="201" id="201_opt">IAX2/sdf</option><option value="52" id="52_opt">mISDN/g:ext1</option><option value="215" id="215_opt">mISDN/g:ext_nt</option></select><span> <img onclick=" addCidRow(); " alt="addCid" src="/voiceone/admin//public/img/add.gif"/> add personal Caller ID for selected trunk</span></dd>
+        </dl>
+				<span id="intable"/><table cellspacing="0" cellpadding="0" id="stats">
+				  <tbody><tr><th/><th>CLIR</th><th>Trunk</th><th>CID Number</th><th>CID Name</th><th>Trunk Overwrite</th></tr>
+				  <tr bgcolor="#ffffff" id="tableintro"><td colspan="3"/><td colspan="3">Caller ID is setted to default for all trunks</td></tr>
+				</tbody></table>
+      </div>   
+     
+    	<h2>Groups</h2>
+      <p class="blockintro">
+        Choose one belonging group at least        (<a class="admin" onclick="if (groupName=prompt('Name','group'+Math.round(Math.random()*1000))) {do_addGroup(groupName,2); return false;}" href="">New group</a>)
+      </p>
+      <div class="block">
+        <div id="groupTable"><div class="groupItem"> <input type="checkbox" value="7" name="group[]"/><img alt="client" src="/voiceone/admin//public/img/icon_group.gif"/> Administration </div>
+<div class="groupItem"> <input type="checkbox" value="34" name="group[]"/><img alt="client" src="/voiceone/admin//public/img/icon_group.gif"/> Ananth </div>
+
+<div class="groupItem"> <input type="checkbox" value="35" name="group[]"/><img alt="client" src="/voiceone/admin//public/img/icon_group.gif"/> Ananth Extension Group </div>
+<div class="groupItem"> <input type="checkbox" value="17" name="group[]"/><img alt="client" src="/voiceone/admin//public/img/icon_group.gif"/> Eltesto Team </div>
+
+<div class="groupItem"> <input type="checkbox" value="12" name="group[]"/><img alt="client" src="/voiceone/admin//public/img/icon_group.gif"/> group27 </div>
+<div class="groupItem"> <input type="checkbox" value="11" name="group[]"/><img alt="client" src="/voiceone/admin//public/img/icon_group.gif"/> group282 </div>
+
+<div class="groupItem"> <input type="checkbox" value="9" name="group[]"/><img alt="client" src="/voiceone/admin//public/img/icon_group.gif"/> group422 </div>
+<div class="groupItem"> <input type="checkbox" value="10" name="group[]"/><img alt="client" src="/voiceone/admin//public/img/icon_group.gif"/> group771 </div>
+
+<div class="groupItem"> <input type="checkbox" value="23" name="group[]"/><img alt="client" src="/voiceone/admin//public/img/icon_group.gif"/> hoeba </div>
+<div class="groupItem"> <input type="checkbox" value="13" name="group[]"/><img alt="client" src="/voiceone/admin//public/img/icon_group.gif"/> imille </div>
+
+<div class="groupItem"> <input type="checkbox" value="22" name="group[]"/><img alt="client" src="/voiceone/admin//public/img/icon_group.gif"/> MicasaSucasa </div>
+<div class="groupItem"> <input type="checkbox" checked="checked" value="29" name="group[]"/><img alt="client" src="/voiceone/admin//public/img/icon_group.gif"/> riyaz </div>
+
+<div class="groupItem"> <input type="checkbox" value="25" name="group[]"/><img alt="client" src="/voiceone/admin//public/img/icon_group.gif"/> Test Group </div>
+<div class="groupItem"> <input type="checkbox" value="21" name="group[]"/><img alt="client" src="/voiceone/admin//public/img/icon_group.gif"/> teste </div>
+
+</div><div id="groupStatus"/>
+        <div style="clear: both;"/> 
+      </div>
+                  
+     
+    <div class="action">
+       <input type="hidden" value="195" name="client[id]" id="client[id]"/>      <a href="#"><img onclick="location.href='../'; return false;" alt="Cancel" src="/voiceone/admin//public/img/en/b-cancel.gif"/></a>
+      <a href="#"><img onclick=" document.getElementById('alert').innerHTML=''; xajax_processFormData(xajax.getFormValues('mainform')); " alt="Save" src="/voiceone/admin//public/img/en/b-save.gif"/></a>
+   <!--  
+      <input type="image" src="/voiceone/admin//public/img/en/b-cancel.gif" alt="Cancel" onclick="location.href='../'; return false;"/>             
+      <input type="image" src="/voiceone/admin//public/img/en/b-save.gif" alt="Save" onclick="return checkParam(document.getElementById('client[extension]').value, document.getElementById('client[alias]').value, document.getElementById('client[password]').value, document.getElementById('client[confirm]').value);"/>
+    -->
+    </div>
+  </form>
+ </div>   
+ 
+  <script>
+    function addCidRow(){
+      document.getElementById('alert').innerHTML=''; 
+      var newRowIndex = (document.getElementById('stats').rows.length);
+      var newRow = document.getElementById('stats').insertRow(newRowIndex);
+      newRow.id = document.getElementById('trunklist').options[document.getElementById('trunklist').selectedIndex].value + "_row";
+      newRow.bgColor = "#ffffff";
+      var newCell_0 = newRow.insertCell(0); newCell_0.id = newRow.id + "_cell0";
+      var newCell_1 = newRow.insertCell(1); newCell_1.id = newRow.id + "_cell1";
+      var newCell_2 = newRow.insertCell(2); newCell_2.id = newRow.id + "_cell2";
+      var newCell_3 = newRow.insertCell(3); newCell_3.id = newRow.id + "_cell3";
+      var newCell_4 = newRow.insertCell(4); newCell_4.id = newRow.id + "_cell4";
+      var newCell_5 = newRow.insertCell(5); newCell_5.id = newRow.id + "_cell5";
+      xajax_addCid(document.getElementById('trunklist').options[document.getElementById('trunklist').selectedIndex].value);
+    } 
+  </script>
+  
+  
+      </div>
+    </div>
+<div id="basic_form">
+    <form method="post" action="/voiceone/settings/extensions/edit/index.php" id="mainform">
+      <table>
+        <tbody><tr>
+          <td>
+            <p class="blockintro">Personal information</p>
+            <div class="block">
+              <dl>
+                <dt class="required"><label for="client[name]">Name:</label></dt>
+                <dd><input type="text" value="aaaa" name="client[name]" id="client[name]" maxlength="30" size="25"/><span id="nameErr"/></dd>
+                <dt class="required"><label for="client[surname]">Surname:</label></dt>
+                <dd><input type="text" value="eduardo" name="client[surname]" id="client[surname]" maxlength="50" size="25"/><span id="surnameErr"/></dd>
+                <dt class="required"><label for="client[extension]">Extension:</label></dt>
+                <dd><input type="text" onblur="document.getElementById('client[username]').value=this.value;" onkeyup="document.getElementById('client[username]').value=this.value;" value="1000" name="client[extension]" id="client[extension]" maxlength="20" size="25"/><span id="extensionErr"/></dd>
+                <dt class="required"><label for="client[language]">Language:</label></dt>
+                <dd><select name="client[language]" id="client[language]"><option value="de">de</option>
+<option value="ru">ru</option>
+<option value="pl">pl</option>
+<option value="en">en</option>
+<option value="es">es</option>
+<option selected="selected" value="it">it</option>
+</select></dd>
+              </dl>
+            </div>
+          </td>
+          <td>
+            <p class="blockintro">Account Information</p>
+            <div class="block">
+              <dl>
+                <dt class="required"><label for="client[username]">Username:</label></dt>
+                <dd><input type="text" disabled="disabled" value="1000" name="client[username]" id="client[username]" maxlength="20" size="25"/><span id="usernameErr"/></dd>
+                <dt class="required"><label for="client[password]">Password:</label></dt>
+                <dd><input type="password" value="1000" name="client[password]" id="client[password]" maxlength="20" size="25"/><span id="passwordErr"/></dd>
+                <dt class="required"><label for="client[confirm]">Confirm:</label></dt>
+                <dd><input type="password" value="1000" name="client[confirm]" id="client[confirm]" maxlength="20" size="25"/><span id="confirmErr"/></dd>
+                <dt class="required"><label for="client[alias]">Alias:</label></dt>
+                <dd><input type="text" value="" name="client[alias]" id="client[alias]" maxlength="100" size="25"/><span id="aliasErr"/></dd>
+              </dl>
+            </div> 
+          </td>
+        </tr>
+      </tbody></table>
+
+<h2> Settings </h2>     

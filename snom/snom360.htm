@@ -1,0 +1,46 @@
+<html>
+<pre>
+user_realname1: Dimitra
+user_name1: 31
+user_pass1: 31
+user_host1: 192.168.1.21
+user_pname1: 31
+record_missed_calls1: on
+
+language!: English
+tone_scheme!: AUS
+web_language!: English
+date_us_format!: off
+dst!: 3600 03.05.07 03:00:00 10.05.07 04:00:00
+timezone!: GRC+2
+filter_registrar!: off
+user_phone!: off
+challenge_response!: off
+logon_wizard!: false
+block_url_dialing!: on
+ntp_server!: ntp.ntua.gr
+user_ringer1!: Ringer2
+#transfer behavior
+call_join_xfer!: on
+user_dp_str1!: |^3([0-9]{1})$|sip:3\1@\d;user=phone|d |^4([0-9]{1})$|sip:4\1@\d;user=phone|d |^2([0-9]{9})$|sip:2\1@\d;user=phone|d |^6([0-9]{9})$|sip:6\1@\d;user=phone|d| ^8([0-9]{9})$|sip:8\1@\d;user=phone|d| ^1([069]{2})$|sip:1\1@\d;user=phone|d| ^11([0-9]{2})$|sip:11\1@\d;user=phone|d
+vol_handset_mic!: 5
+#for call pickup
+dkey_snom!: speed **
+
+#idle screen
+#user_xml_screen_url1!: http://192.168.1.11/xml/idle.xml
+#user_idle_text1!: SPECISOFT
+#update_policy: auto_update
+#firmware_status: http://192.168.1.21/snom/snom-firmware.htm
+#firmware_interval: 2880
+fkey4!: dest <sip:32@192.168.1.21>
+fkey5!: dest <sip:33@192.168.1.21>
+fkey6!: dest <sip:34@192.168.1.21>
+fkey7!: dest <sip:35@192.168.1.21>
+fkey8!: dest <sip:36@192.168.1.21>
+fkey9!: dest <sip:37@192.168.1.21>
+fkey10!: dest <sip:38@192.168.1.21>
+fkey11!: dest <sip:39@192.168.1.21>
+
+</pre>
+</html>

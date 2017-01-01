@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>Flash Operator Panel 2</title>
+        <link rel="stylesheet" type="text/css" href="css/fluid/reset.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="css/fluid/text.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="css/fluid/grid.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="css/fluid/layout.css" media="screen" />
+        <link rel="fluid-icon" type="image/png" href="images/telephone_128.png" />
+
+        <link href="css/stable.css" rel="stylesheet" type="text/css"/>
+        <link href="css/modalbox.css" rel="stylesheet" type="text/css"/>
+        <link href="css/tooltips.css" rel="stylesheet" type="text/css"/>
+        <link href="css/chosen.css" rel="stylesheet" type="text/css"/>
+        <link href="css/operator.css" rel="stylesheet" type="text/css"/>
+        <link href="css/chat.css" rel="stylesheet" type="text/css"/>
+        <link href="css/vmail.css" rel="stylesheet" type="text/css"/>
+
+        <!--[if IE 6]><link rel="stylesheet" type="text/css" href="css/fluid/ie6.css" media="screen" /><![endif]-->
+        <!--[if gte IE 7]><link rel="stylesheet" type="text/css" href="css/fluid/ie.css" media="screen" /><![endif]-->
+        <script type="text/javascript" src="js/date.format.js"> </script>
+
+        <script type="text/javascript" src="js/presence.js"> </script>
+
+        <script type="text/javascript" src="js/swfobject.js"></script>
+        <script type="text/javascript" src="js/prototype.js"></script>
+        <script type="text/javascript" src="js/scriptaculous.js"></script>
+        <script type="text/javascript" src="js/effects.js"></script>
+        <script type="text/javascript" src="js/builder.js"></script>
+        <script type="text/javascript" src="js/extend.js"> </script>
+        <script type="text/javascript" src="js/tooltips.js"> </script>
+        <script type="text/javascript" src="js/base64.js"> </script>
+        <script type="text/javascript" src="js/md5.js"> </script>
+        <script type="text/javascript" src="js/modalbox.js"> </script>
+        <script type="text/javascript" src="js/jcallback.js"></script>
+        <script type="text/javascript" src="js/proto.menu.0.6.js"> </script>
+        <script type="text/javascript" src="js/deflate.js"> </script>
+        <script type="text/javascript" src="js/growl.js"> </script>
+        <script type="text/javascript" src="js/notifyLibJS.js"> </script>
+        <script type="text/javascript" src="js/fop2.js"> </script>
+        <script type="text/javascript" src="js/chosen.js"> </script>
+        <script type="text/javascript" src="js/AutoComplete.js"> </script>
+        <script type="text/javascript" src="js/niftyplayer.js"></script>
+        <script type="text/javascript" src="js/stereotabs.js"></script>
+        <script type="text/javascript" src="js/tinywav.js"></script>
+        <script type="text/javascript" src="js/sprintf.js"></script>
+
+    </head>
+<body>
+
+<audio id="audiotag1" src="audio/blip1.wav" autobuffer="autobuffer"></audio>
+<audio id="audiotag2" src="audio/2up2.wav" autobuffer="autobuffer"></audio>
+<audio id="audiotag3" src="audio/silkyalert.wav" autobuffer="autobuffer"></audio>
+<audio id="audiotag4" src="audio/ring.wav" autobuffer="autobuffer"></audio>
+
+<div id="head" style='display:none;'>
+    <input type='text' style='display: none' name='usercontext'  id='usercontext' value=''>
+    <input type='text' style='display: none' name='myextension'  id='myextension' value=''>
+    <input type='text' style='display: none' name='securitycode' id='securitycode' value=''>
+    <input type='text' style='display: none' name='extrainfotext' id='extrainfotext' value=''>
+    <div id="actionbar"></div>
+    <div id="custombar" style='float:left; display:none;'>
+    <div title='Conference Call' class='actionbutton myclick' id='custom_conferencecall'>
+    <img src="./images/toolbar/conference.png">
+    </div>
+    </div>
+    <div class="pad1" id='firstpad'></div>
+    <div style='height: 45px; padding-top: 0px;'>
+
+        <!--div style='float: left; padding-top: 10px;'>
+            <input type="text" name="filtertext" id="filtertext" placeholder="" class="placeholder" />
+        </div-->
+
+        <div style='float:left; padding-top:10px;'>
+            <div id='filter_holder' class="chzn-container chzn-container-single chzn-container-dialpad" style="width: 10em;">
+              <span id='xac_holder' class="chzn-single">
+                <input type="text" id="filtertext" name="filtertext" placeholder="" class="placeholder" style='border:0; margin:0; padding:0;'/>
+              </span>
+            </div>
+        </div>
+ 
+        <div class="pad1"></div>
+
+        <div style='float:left; padding-top:10px;'>
+            <div id='ac_holder' class="chzn-container chzn-container-single chzn-container-dialpad" style="width: 10em;">
+              <span id='xac_holder' class="chzn-single chzn-dialpad">
+                <input type="text" id="dialtext" name="dialtext" autocomplete="off" placeholder="" class="placeholder" style='border:0; margin:0; padding:0;'/>
+                <a href='#' onClick="showDialpad(); event.returnValue=false; return false;"><div><b></b></div></a>
+              </span>
+            </div>
+            
+            <div id='dialpad' style='display: none; position: absolute; top:0px; left:0px; background: #fff;'>
+                <a class='sphoneDtmfButton' href="http://www.fop2.com" onClick="sendDtmf('1'); event.returnValue=false; return false;">1</a>
+                <a class='sphoneDtmfButton' href="http://www.fop2.com" onClick="sendDtmf('2'); event.returnValue=false; return false;">2</a>
+                <a class='sphoneDtmfButton' href="http://www.fop2.com" onClick="sendDtmf('3'); event.returnValue=false; return false;">3</a><br/>
+                <a class='sphoneDtmfButton' href="http://www.fop2.com" onClick="sendDtmf('4'); event.returnValue=false; return false;">4</a>
+                <a class='sphoneDtmfButton' href="http://www.fop2.com" onClick="sendDtmf('5'); event.returnValue=false; return false;">5</a>
+                <a class='sphoneDtmfButton' href="http://www.fop2.com" onClick="sendDtmf('6'); event.returnValue=false; return false;">6</a><br/>
+                <a class='sphoneDtmfButton' href="http://www.fop2.com" onClick="sendDtmf('7'); event.returnValue=false; return false;">7</a>
+                <a class='sphoneDtmfButton' href="http://www.fop2.com" onClick="sendDtmf('8'); event.returnValue=false; return false;">8</a>
+                <a class='sphoneDtmfButton' href="http://www.fop2.com" onClick="sendDtmf('9'); event.returnValue=false; return false;">9</a><br/>
+                <a class='sphoneDtmfButton' href="http://www.fop2.com" onClick="sendDtmf('*'); event.returnValue=false; return false;">*</a>
+                <a class='sphoneDtmfButton' href="http://www.fop2.com" onClick="sendDtmf('0'); event.returnValue=false; return false;">0</a>
+                <a class='sphoneDtmfButton' href="http://www.fop2.com" onClick="sendDtmf('#'); event.returnValue=false; return false;">#</a>
+            </div>
+        </div>
+
+        <div class="pad1"></div>
+
+        <div style='float: left; padding-top: 10px;'>
+            <select id='presence' name='presence' onChange='setState(this);'>
+            </select>
+        </div>
+
+        <div class="pad1"></div>
+
+        <div id='secondtoolbar'></div>
+    </div>
+</div> <!-- end head div -->
+<div id='container' style='display:none;'>
+    <div class="pad2"></div>
+
+    <div id='fatalerror'>
+        <center>
+            <h1 id='fatalmessage'></h1><br/>
+            <img src='images/warning.gif' width=150 height=146 border=0 alt=warning><br/>
+            <h3></h3>
+        </center>
+    </div>
+
+    <div id='loader'>
+        <center>
+            <h1 id='loadermessage'></h1><br/>
+            <img src='images/spinner.gif' width=50 height=50 border=0 alt=loading><br/><br/>
+            <span id='descriptiveMessage'></span>
+        </center>
+    </div>
+
+    <div class="container_16" id="allbuttons">
+
+        <div class="grid_12" id='left_column'>
+            <div class="box" style='width:100%;' id='box_extensionbox'>
+                <h2>
+                   <span class='handle'></span> <span id='extensionstag'></span> <span id="toggle-extensionlist" class='myclick visible'></span>
+                </h2>
+                <div class="block" id='extensionlist'></div>
+            </div>
+        </div>
+        <div class="grid_4" id='right_column'>
+
+            <div class="box" style='width:100%; display:none;' id='box_asternicTagbox'>
+                <h2>
+                    <span class='handle'></span><span id='tagcall'>Tag Call</span> <span id="toggle-asternicTag" class='myclick visible'></span>
+                </h2>
+                <div id='asternicTag' class="block"></div>
+            </div>
+
+            <div class="box" style='width:100%; display:none;' id='box_smsbox'>
+                <h2>
+                    <span class='handle'></span><span id='smstag'>Send SMS</span> <span id="toggle-smslist" class='myclick visible'></span>
+                </h2>
+                <div id='smslist' class="block">
+                    <div style='padding:10px;'>
+                        <form id='smsSend' onSubmit='event.returnValue=false; return false;'>
+                        <fieldset>
+                            <div><label for='smsNumber' id='labelSmsNumber'></label><br/><input type='text' name='smsNumber' id='smsNumber' style='width:95%'></div>
+                            <div><label for='smsMsg' id='labelSmsMsg'></label><br/><textarea name='smsMsg' id='smsMsg' rows='3' cols='30' style='width:96%;'></textarea></div>
+                            <div><input type="reset" value="Reset" /><input type=submit id='btnSendSMS' value='OK' onClick='formsms();'></div>
+                        </fieldset>
+                        </form>
+                        <div id='smsStatus' style='width:100%; background-color: #eef0f0; padding:2px;'>&nbsp;</div>
+                    </div>
+                </div>
+            </div>
+            <div class="box" style='width:100%;' id='box_parkbox'>
+                <h2>
+                <span class='handle'></span> <span id='parkstag'></span> <span id="toggle-parklist" class='myclick visible'></span>
+                </h2>
+                <div id='parklist' class="block"></div>
+            </div>
+            <div class="box" style='width:100%;' id='box_queuebox'>
+                <h2>
+                    <span class='handle'></span> <span id='queuestag'></span> <span id="toggle-queuelist" class='myclick visible'></span>
+                </h2>
+                <div id='queuelist' class="block"></div>
+            </div>
+            <div class="box" style='width:100%;' id='box_ringgroupbox'>
+                <h2>
+                    <span class='handle'></span> <span id='ringgrouptag'></span> <span id="toggle-ringgrouplist" class='myclick visible'></span>
+                </h2>
+                <div id='ringgrouplist' class="block"></div>
+            </div>
+            <div class="box" style='width:100%;' id='box_trunkbox'>
+                <h2>
+                    <span class='handle'></span> <span id='trunkstag'></span> <span id="toggle-trunklist" class='myclick visible'></span>
+                </h2>
+                <div class="block" id='trunklist'></div>
+            </div>
+            <div class="box" style='width:100%;' id='box_conferencebox'>
+                <h2>
+                    <span class='handle'></span> <span id='conferencestag'></span> <span id="toggle-conferencelist" class='myclick visible'></span>
+                </h2>
+                <div class="block" id='conferencelist'></div>
+            </div>
+
+        </div>
+        <div class="clear"></div>
+        <!--div class="grid_16" id='footer'></div-->
+        <div class="clear"></div>
+        <form id='mailform'></form>
+   </div>
+
+<div style='position:expression("absolute");' id='footer'></div>
+
+<div id="vmailcontainer" style='display:none;'>
+<ul id="tabnav">
+  <li><a href="http://www.fop2.com" onclick='event.returnValue=false; return false;' id="tab_INBOX" class="tab"><span id='vmail_new'>New</span></a></li>
+  <li><a href="http://www.fop2.com" onclick='event.returnValue=false; return false;' id="tab_Old" class="tab"><span id='vmail_old'>Old</span></a></li>
+  <li><a href="http://www.fop2.com" onclick='event.returnValue=false; return false;' id="tab_Work" class="tab"><span id='vmail_work'>Work</span></a></li>
+  <li><a href="http://www.fop2.com" onclick='event.returnValue=false; return false;' id="tab_Family" class="tab"><span id='vmail_family'>Family</span></a></li>
+  <li><a href="http://www.fop2.com" onclick='event.returnValue=false; return false;' id="tab_Friends" class="tab"><span id='vmail_friends'>Friends</span></a></li>
+  <div class="trashemptyicon" id='vmail_trash'></div>
+</ul>
+<div id="panel_INBOX" class="panel"></div>
+<div id="panel_Old" class="panel"></div>
+<div id="panel_Work" class="panel"></div>
+<div id="panel_Family" class="panel"></div>
+<div id="panel_Friends" class="panel"></div>
+</div>
+
+<div id="preferencePane" style='display:none;'>
+<form id='preferences' class='preferences' onSubmit='event.returnValue=false; return false;'>
+<fieldset>
+<legend id='prefSounds'></legend>
+<ul><li><label for='prefSoundChat' id='labelSoundChat'></label><input type='checkbox' name='prefSoundChat' id='prefSoundChat'></li>
+<li><label for='prefSoundQueue' id='labelSoundQueue'></label><input type='checkbox' name='prefSoundQueue' id='prefSoundQueue'></li>
+<li><label for='prefSoundRing' id='labelSoundRing'></label><input type='checkbox' name='prefSoundRing' id='prefSoundRing'></li>
+</ul>
+</fieldset>
+<fieldset>
+<legend id='prefDisplay'></legend>
+<ul>
+<li><label for='prefDisplayLanguage' id='labelDisplayLanguage'></label><select id='prefDisplayLanguage' name='prefDisplayLanguage'></select></li>
+<li><label for='prefDisplayQueue' id='labelDisplayQueue'></label><select name='prefDisplayQueue' id='prefDisplayQueue'><option value='min'></option><option value='max'></select></li>
+<li><label for='prefDisplayDynamicLine' id='labelDisplayDynamicLine'></label><input type='checkbox' name='prefDisplayDynamicLine' id='prefDisplayDynamicLine'></li>
+<li><label for='prefDisplayNotifyDuration' id='labelDisplayNotifyDuration'></label><input type='number' class='text' name='prefDisplayNotifyDuration' id='prefDisplayNotifyDuration' value=''></li>
+</ul>
+</fieldset>
+<br class='clear'/><br/><br/><br/>
+<div style='text-align:center;'><input type='submit' class='style-button' id='prefClose' value='Close' onclick='Modalbox.hide()'></div>
+</form>
+</div>
+
+<div id='confirmdialog' style='display:none;'>
+<center>
+<span id='areyousure'></span>
+<br/>
+<br/>
+<input type='submit' name='yes' value='Yes' id='confirmyes' onclick='respuesta="yes"; debug("yes"); Modalbox.hide(); ' >
+<input type='submit' name='no'  value='No'  id='confirmno'  onclick='respuesta="no"; Modalbox.hide()' >
+</center>
+</div>
+
+</div>
+<div id='flashconnector'><h1>Flash Player Required!</h1><br/><img src="images/telephone_128.png" width=128 height=128 style='display:none;'/></div>
+</body>
+</html>

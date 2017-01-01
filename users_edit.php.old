@@ -1,0 +1,300 @@
+<?
+include "inc/auth.php";
+include "inc/connect.php";
+include "inc/config.php";
+include "inc/functions.php";
+include "inc/pages.php";
+
+$pages = selected_page("/users.php");
+
+$info= null;
+$error= null;
+$new_line= null;
+$new_modelid= null;
+$device= null;
+
+$sql = "SELECT dev_model_id,model_name,max_lines FROM device_models order by model_name";
+$result = @postg_query($sql, $db);
+if($result){
+        $data = array();
+        $tmp[]=array("device" =>"Χωρίς συσκευή", "model_id"=>"0-0");
+        while($row = pg_fetch_assoc($result)){
+                $device_lines=$row['max_lines'];
+                for ($i=1; $i <= $device_lines ; $i++) {
+                        $tmp[]=array("device" =>"$row[model_name]" . " - Γραμμή: " . "$i", "model_id"=>"$row[dev_model_id]" . "-" ."$i");
+                }
+        }
+}
+$data = $tmp;
+
+//if we have an ID in post we are in edit mode.
+$edit_id = (isset($_POST['id'])) ? $_POST['id']:null ;
+$operation = 'add';
+
+if(isset($edit_id)){
+	$operation='edit';
+}
+
+$info = $info . "Record ID is: " . $edit_id  . " <br>";
+ 
+//first chech if parameters exist from post
+//if we are in add show form else get them from the db
+
+$newpassword = passgen();
+
+$extension = (isset($_POST['extension'])) ? $_POST['extension']:null ;
+$password = (isset($_POST['password'])) ? $_POST['password']:$newpassword ;
+$name = (isset($_POST['name'])) ? $_POST['name']:null ; 
+$surname = (isset($_POST['surname'])) ? $_POST['surname']:null ;
+$cid = (isset($_POST['cid'])) ? $_POST['cid']:null ;
+$email = (isset($_POST['cid'])) ? $_POST['email']:null ;
+$context = (isset($_POST['context'])) ? $_POST['context']:null ;
+$device = (isset($_POST['device'])) ? $_POST['device']:"0-0" ;
+$device_mac = (isset($_POST['device_mac'])) ? $_POST['device_mac']:null ;
+
+switch ($operation) {
+    case 'add':
+		if (!isset($_POST['extension'])){
+			$smarty = new Smarty;
+			$smarty->assign("pages", $pages);
+			$smarty->assign("section", "Διαχείρηση Χρηστών");
+			$smarty->assign("section_image", "users48.png");
+			$smarty->debugging = false;
+			$smarty->assign("data", $data);
+			$smarty->assign("info", $info);
+			$smarty->assign("selected", "add");
+			$smarty->assign("extension", $extension);
+			$smarty->assign("password", $password);
+			$smarty->assign("name", $name);
+			$smarty->assign("surname", $surname);
+			$smarty->assign("cid", $cid);
+			$smarty->assign("email", $email);
+			$smarty->assign("context", $context);
+			$smarty->assign("device", $device);
+			$smarty->assign("device_mac", $device_mac);
+			$smarty->display("users/header.tpl");
+			$smarty->display("users/add.tpl");
+			exit;
+		}
+        break;
+    case 'edit':
+		if (!isset($_POST['extension'])){
+			//obtain params from db based on id
+			$sql = "SELECT extensions.password, extensions.name, extensions.surname, extensions.extension,";
+        		$sql = $sql . " extensions.callerid, extensions.email, extensions.mac_address, device_models.dev_model_id,extensions.line";
+        		$sql = $sql . " FROM extensions LEFT JOIN device_models ON device_models.dev_model_id=extensions.model_id";
+        		$sql = $sql . " where user_id='$edit_id'";
+			$result = @postg_query($sql, $db);
+			while($row = pg_fetch_assoc($result)){
+				$device_mac = $row["mac_address"];
+                 		$extension = $row["extension"];
+                		$name = $row["name"];
+                		$surname = $row["surname"];
+				$password = $row["password"];
+                		$email = $row["email"];
+                		$cid = $row["callerid"];
+                		if ($row["mac_address"] != '') {
+                        		$device =  $row["dev_model_id"] . "-" . $row["line"];
+                		} else {
+                        		$device = "0-0";
+                		}
+				//also store key params in session
+				$_SESSION['db_extension'] = $extension;
+				$_SESSION['db_mac_address'] = $device_mac;
+				$_SESSION['db_device'] = $device;
+				 
+			}
+			$smarty = new Smarty;
+			$smarty->assign("pages", $pages);
+			$smarty->assign("section", "Διαχείρηση Χρηστών");
+			$smarty->assign("section_image", "users48.png");
+			$smarty->debugging = false;
+			$smarty->assign("data", $data);
+			$smarty->assign("info", $info);
+			$smarty->assign("selected", "edit");
+                	$smarty->assign("user_id", $edit_id);
+			$smarty->assign("extension", $extension);
+			$smarty->assign("password", $password);
+			$smarty->assign("name", $name);
+			$smarty->assign("surname", $surname);
+			$smarty->assign("cid", $cid);
+			$smarty->assign("email", $email);
+			$smarty->assign("context", $context);
+			$smarty->assign("device", $device);
+			$smarty->assign("device_mac", $device_mac);
+			$smarty->display("users/header.tpl");
+			$smarty->display("users/add.tpl");
+			exit;
+		}
+        break;
+    case 'delete':
+        break;
+}
+if (isset($_POST['extension'])){
+	//validation
+	if ($device != "0-0"){
+		//mac validation
+                if (!preg_match('/^[A-Fa-f0-9]{12}$/i', $_POST['device_mac'])){
+                	$error =$error . "Λάθος Mac <br>" . $_POST['device_mac'];
+                }
+		//dublicate validation
+		$tmp = (isset($_POST['device'])) ? explode("-",$_POST['device']): "0-0";
+                $new_line = $tmp[1];
+		$new_modelid = $tmp[0];
+                $sql = sprintf("select extension from extensions where mac_address='%s' and line='%d'",$_POST['device_mac'],$new_line);
+                $result = @postg_query($sql, $db);
+                if($result){
+                        $rows=pg_num_rows($result);
+                        if($rows  > 0 && $operation == 'add' ) {
+				$t_row = pg_fetch_assoc($result);
+                        	$error = $error . "Η γραμμή αυτή έχει δωθεί στο εσωτερικό " . $t_row['extension'] . "<br>";
+                        }
+                }
+
+        } else {
+		$device_mac = '';
+	}
+	if(ereg('[^0-9]',$extension)){
+                $error =$error . "Λάθος εσωτερικός Αριθμός<br>";
+        }
+        if (strlen($extension) == 0){
+                $error =$error . "Ο εσωτερικός αριθμός δεν μπορεί να είναι κενός<br>";
+        }
+        if (strlen($extension) > 6){
+                $error =$error . "Ο εσωτερικός αριθμός δεν μπορεί να είναι τόσα ψηφία<br>";
+        }
+        if(strlen($cid) > 16 ){
+                $error =$error . "Πολύ μεγάλο CID<br>";
+        }
+        if (ereg('[^A-Za-z0-9. ]', $cid)){
+                $error =$error . "CID - Μόνο Αγγλικοί χαρακτήρες<br>";
+        }
+        if(strlen($password) > 20){
+                $error =$error . "Πολύ μεγάλος κωδικός πρόσβασης<br>";
+        }
+        if (strlen($password) == 0){
+                $error =$error . "Ο κωδικός πρόσβασης δεν μπορεί να είναι κενός<br>";
+        }
+	if(ereg('[^0-9]',$password)){
+                $error =$error . "Ο κωδικός χρήστη πρέπει να είναι μόνο αριθμοί <br>";
+        }
+
+	//check if the extension already exists
+        $sql = sprintf("SELECT 1 from extensions where extension='%d'", $extension);
+        $result = @postg_query($sql, $db);
+        if ($result) {
+                $rows=pg_num_rows($result);
+                if($rows > 0 && $operation == 'add') {
+                        $error = $error . "Ο εσωτερικός αριθμός " . $extension . " δεν είναι διαθέσιμος <br>";
+                }
+        }
+	//edit specific validation
+	if ( $operation == 'edit') {
+		if ($extension != $_SESSION['db_extension']) {
+			//user wants to change the extension
+			//find if new extension is avaiable
+			$sql =sprintf("select 1 from extensions where extension='%s' and user_id!='%d'",$extension,$edit_id);
+                	$result = @postg_query($sql, $db);
+        	        $rows= pg_num_rows($result);
+	                if($rows  > 0 ) {
+                		$t_row = pg_fetch_assoc($result);
+               			$error = $error . "Η γραμμή αυτή δεν είναι διαθέσιμη <br>";
+                	}
+			$replace_extension = 1;
+		}
+		if ($device_mac != $_SESSION['db_mac_address'] || $device != $_SESSION['db_device']) {
+			$info = $info . "Device mac: " . $device_mac . " <br> Session mac: " . $_SESSION['db_mac_address'] . " <br>";
+			//user wants to change the device mac
+			//find if it is assigned
+			$sql = sprintf("select extension from extensions where mac_address='%s' and line='%s' and user_id!='%d'",$device_mac,$new_line,$edit_id);
+                	$result = @postg_query($sql, $db);
+        	        $rows = pg_num_rows($result);
+	                if($rows  > 0 ) {
+                		$t_row = pg_fetch_assoc($result);
+               			$error = $error . "Το MAC ανήκει στο εσωτερικό " . $t_row['extension'] . " <br>";
+                	}
+			$replace_device = 1;
+			//maybe unprovision here or based on flag and session data?
+		}
+	}
+
+	//add device 
+	$device_mac = strtolower($device_mac);
+	
+	if (strlen($error) == 0 && $operation == 'add' ){
+		$sql = sprintf("INSERT into extensions (extension, password, name, surname, CallerID, email, mac_address, model_id,line) values ('%s','%s','%s','%s','%s','%s','%s','%d','%d')",$extension,$password,$name,$surname,$cid,$email,$device_mac,$new_modelid,$new_line);
+                $result = @postg_query($sql, $db);
+                //asterisk_gen_configs();
+                //asterisk_reload();
+                //start with device provisioning
+		deviceProvision($device_mac);
+                $info = $info . $sql . "Επιτυχής προσθήκη  <br>";
+	}
+
+	//edit device
+	if (strlen($error) == 0 && $operation == 'edit' ){
+		$info = $info . "Starting Update: <br>";
+		$sql = sprintf("UPDATE extensions set password='%s', name='%s', surname='%s', CallerID='%s', email='%s', where user_id='%d'",$password,$name,$surname,$cid,$email,$edit_id);
+		$info = $info .$sql . "<br>";
+		$result = @postg_query($sql, $db);
+		if ($replace_extension == 1) {
+			$info = $info . "Replacing Extension..."  . "<br>";
+			$sql = sprintf("UPDATE extensions set extension='%s',password='%s' where user_id='%d'",$extension,$newpassword,$edit_id);
+			deviceProvision($device_mac);
+			unset($_SESSION['db_extension']);
+			$info = $info . "Extension Changed <br>" ;
+		}
+		if ($replace_device == 1) {
+			$info = $info . "Device Changed! New Model ID is:" . $new_modelid . " <br> New Line is: " . $new_line . " <br> Mac is: " . $device_mac . "<br>";
+			$info = $info . "Replacing Device..."  . "<br>";
+			if ($new_modelid == ''){
+				$new_modelid=0;
+				$new_line=0;
+				$device_mac='';
+			}
+			$info = $info . "Updating to new model..."  . "<br>";
+			if ($_SESSION['db_mac_address'] != ''){
+                                $reprovision = (deviceUnProvision($_SESSION['db_mac_address']));
+			}
+                        //also change the password
+                        $newpassword = passgen();
+			$sql = sprintf("UPDATE extensions set model_id='%s', line='%s', password='%s', mac_address='%s' where user_id='%d'",$new_modelid,$new_line,$newpassword,$device_mac,$edit_id);
+			$result = @postg_query($sql, $db);
+			deviceProvision($device_mac);
+			if ($reprovision == '2') {
+				deviceProvision($_SESSION['db_mac_address']);
+				unset($_SESSION['db_mac_address']);
+			}
+			unset($_SESSION['db_device']);
+		}
+        $info = $info . $sql . "Επιτυχής επεξεργασία  <br>";
+	}
+
+	//display result
+	$smarty = new Smarty;
+        $smarty->assign("pages", $pages);
+        $smarty->assign("section", "Διαχείρηση Χρηστών");
+        $smarty->assign("section_image", "users48.png");
+        $smarty->debugging = false;
+        $smarty->assign("data", $data);
+        $smarty->assign("info", $info);
+        $smarty->assign("error", $error);
+        $smarty->assign("selected", "add");
+	if ($operation == 'edit') {
+        	$smarty->assign("selected", "edit");
+        	$smarty->assign("user_id", $edit_id);
+	}
+        $smarty->assign("extension", $extension);
+        $smarty->assign("password", $password);
+        $smarty->assign("name", $name);
+        $smarty->assign("surname", $surname);
+        $smarty->assign("cid", $cid);
+        $smarty->assign("email", $email);
+        $smarty->assign("context", $context);
+        $smarty->assign("device", $device);
+        $smarty->assign("device_mac", $device_mac);
+        $smarty->display("users/header.tpl");
+        $smarty->display("users/add.tpl");
+        exit;
+}
+?>

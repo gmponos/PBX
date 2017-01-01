@@ -1,0 +1,29 @@
+<script type="text/javascript">
+//<![CDATA[
+function loadTabs() {
+var tabs = new tabset('ptabs'); // name of div to crawl for tabs and panels
+tabs.autoActivate($('tab_first')); // name of tab to auto-select if none exists in the url
+}
+loadTabs();
+//]]>
+</script>
+
+
+<div id="ptabs">
+<ul id="tabnav">
+  <li><a href="http://www.fop2.com" onclick='return false;' id="tab_first" class="tab">Phonebook</a></li>
+  <li><a href="http://www.fop2.com" onclick='return false;' id="tab_second" class="tab">Recordings</a></li>
+</ul>
+<div id="panel_first" class="panel">
+  <iframe src="phonebook.php" name="window" align='center' width='930' height='400'>
+  </iframe>
+  <div style='text-align:center;'><input type='submit' class='submit-button' tabindex='3' value='Close' onclick='Modalbox.hide()'></div>
+</div>
+<div id="panel_second" class="panel">
+  <iframe src="recordings.php" name="window" align='center' width='930' height='400'>
+  </iframe>
+  <div style='text-align:center;'><input type='submit' class='submit-button' tabindex='3' value='Close' onclick='Modalbox.hide()'></div>
+</div>
+</div>
+
+

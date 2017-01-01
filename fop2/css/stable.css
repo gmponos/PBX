@@ -1,0 +1,143 @@
+.stable {
+    line-height: 1.5;
+    margin: 0;
+}
+.stable div.pagination {
+    font-size: 10px;
+    text-align: center;
+}
+.stable div.pagination a {
+    background-color: #FFFFFF;
+    border: 1px solid #93A0C1;
+    border-radius: 3px 3px 3px 3px;
+    color: #000000;
+    display: inline-block;
+    font-size: 10px;
+    margin: 2px;
+    min-width: 1.6em;
+    padding: 2px;
+    text-decoration: none;
+}
+.stable div.pagination a:hover, .stable div.pagination a:active {
+    background-color: white;
+    border: 1px solid #000000;
+    border-radius: 3px 3px 3px 3px;
+    color: #000000;
+    display: inline-block;
+    font-size: 10px;
+    margin: 2px;
+    min-width: 1.6em;
+    padding: 2px;
+    text-decoration: none;
+}
+.stable div.pagination span.current {
+    background-color: #999999;
+    border: 1px solid #999999;
+    border-radius: 3px 3px 3px 3px;
+    color: white;
+    display: inline-block;
+    font-size: 10px;
+    font-weight: bold;
+    margin: 2px;
+    min-width: 1.6em;
+    padding: 2px;
+    text-decoration: none;
+}
+.stable div.pagination span.disabled {
+    background-color: white;
+    border: 1px solid #C6C7C7;
+    border-radius: 3px 3px 3px 3px;
+    color: #C6C7C7;
+    display: inline-block;
+    font-size: 10px;
+    margin: 2px;
+    min-width: 1.6em;
+    opacity: 0.5;
+    padding: 2px;
+    text-decoration: none;
+}
+.stable table {
+    border-collapse: collapse;
+    border-left: 1px solid #CCCCCC;
+    border-radius: 5px 5px 5px 5px;
+    border-top: 1px solid #CCCCCC;
+    box-shadow: 2px 2px 3px #999999;
+    color: #333333;
+    font-family: Verdana,Arial,Helvetica,sans-serif;
+    margin-bottom: 8px;
+    table-layout: fixed;
+    width: 100%;
+}
+.stable table caption {
+    background: none repeat scroll 0 0 #EFEFEF;
+    border: 1px solid #CCCCCC;
+    color: #666666;
+    font-size: 1.1em;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+.stable table a {
+    color: #FF6600;
+    font-weight: 700;
+    text-decoration: none;
+}
+.stable table a:hover {
+    background: none repeat scroll 0 0 #FF6600;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+.stable table tr th.tcheck, .stable table tr td.tcheck {
+    text-align: center;
+    width: 35px;
+}
+.stable table tr th.tcontrol_long {
+    width: 80px;
+}
+.stable table tr th.tcontrol_med {
+    width: 60px;
+}
+.stable table tr th.tcontrol_short {
+    width: 40px;
+}
+.stable table tr th a {
+    border-bottom: 1px dotted #336699;
+    color: #336699;
+}
+.stable table tr th a:hover {
+    background: none repeat scroll 0 0 #336699;
+    color: #FFFFFF;
+}
+.stable table thead tr th {
+    background: none repeat scroll 0 0 #E2E2E2;
+    text-transform: uppercase;
+}
+.stable table tfoot tr th, .stable table tfoot tr td {
+    color: #000000;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.stable table tfoot tr th {
+    background: none repeat scroll 0 0 #FBFBFA;
+    width: 20%;
+}
+.stable table tfoot tr td {
+    width: 80%;
+}
+.stable table td, .stable table th {
+    background: none repeat scroll 0 0 #F5F5E5;
+    border-bottom: 1px solid #CCCCCC;
+    border-right: 1px solid #CCCCCC;
+    font-size: 0.8em;
+    line-height: 1.8em;
+    overflow: hidden;
+    padding: 5px;
+    text-overflow: ellipsis;
+    vertical-align: top;
+    white-space: nowrap;
+}
+.stable table tr.odd th, .stable table tr.odd td {
+    background: none repeat scroll 0 0 #EFEFEF;
+}
+

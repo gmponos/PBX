@@ -1,0 +1,251 @@
+<?
+include "inc/auth.php";
+include "inc/connect.php";
+include "inc/config.php";
+include "inc/functions.php";
+include "inc/pages.php";
+
+$info = null;
+$error = null;
+
+$pages = selected_page("/users.php");
+
+$info= null;
+$error= null;
+$got_device='';
+
+$sql = "SELECT dev_model_id,model_name,max_lines FROM device_models order by model_name";
+$result = @postg_query($sql, $db);
+if($result){
+        $data = array();
+        $tmp[]=array("device" =>"Χωρίς συσκευή", "model_id"=>"0-0");
+        while($row = pg_fetch_assoc($result)){
+                $device_lines=$row['max_lines'];
+                for ($i=1; $i <= $device_lines ; $i++) {
+                        $tmp[]=array("device" =>"$row[model_name]" . " - Γραμμή: " . "$i", "model_id"=>"$row[dev_model_id]" . "-" ."$i");
+                }
+        }
+}
+$data = $tmp;
+
+
+if (empty($_POST['extension'])){
+
+	$done = 0;
+	$smarty = new Smarty;
+	$smarty->assign("pages", $pages);
+	$smarty->assign("section", "Διαχείρηση Χρηστών");
+	$smarty->assign("section_image", "users48.png");
+	$smarty->debugging = false;
+	$smarty->assign("data", $data);
+	$smarty->assign("info", $info);
+	$smarty->assign("selected", "edit");
+
+	$edit_id = (isset($_POST['id'])) ? $_POST['id']:null ;
+	$sql = "SELECT extensions.password, extensions.name, extensions.surname, extensions.extension,";
+	$sql = $sql . " extensions.callerid, extensions.email, extensions.mac_address, device_models.dev_model_id,extensions.line";
+	$sql = $sql . " FROM extensions LEFT JOIN device_models ON device_models.dev_model_id=extensions.model_id";
+        $sql = $sql . " where user_id='$edit_id'";
+
+	$result = @postg_query($sql, $db);
+	while($row = pg_fetch_assoc($result)){
+		$smarty->assign("device_mac", $row["mac_address"]);
+        	$smarty->assign("extension", $row["extension"]);
+        	$smarty->assign("name", $row["name"]);
+        	$smarty->assign("surname", $row["surname"]);
+        	$smarty->assign("password", $row["password"]);
+        	$smarty->assign("email", $row["email"]);
+        	$smarty->assign("cid", $row["callerid"]);
+       		$smarty->assign("user_id", $_POST['id']);
+		if ($row["mac_address"] != '') {
+			$device =  $row["dev_model_id"] . "-" . $row["line"];
+		} else {
+			$device = "0-0";
+		}
+		$smarty->assign("device", $device);
+	}
+        $smarty->display("users/header.tpl");
+        $smarty->display("users/add.tpl");
+} else {
+        //done flag in order to check validation
+        $done = 0;
+        $got_device = 0;
+
+	if ($_POST['device'] != "0-0"){
+        	$got_device = 1;
+        	if (preg_match('/^[A-Fa-f0-9]{12}$/i', $_POST['device_mac'])){
+        		$done=1;
+        	} else {
+        		$error =$error . "Λάθος Mac <br>" . $_POST['device_mac'];
+        		$done=0;
+        	}
+        }
+
+        if(ereg('[^0-9]',$_POST['extension'])){
+        	$error = $error . "Λάθος εσωτερικός Αριθμός<br>";
+        	$done=0;
+        }
+	if (strlen($_POST['extension']) == 0){
+		$error = $error . "Ο εσωτερικός αριθμός δεν μπορεί να είναι κενός<br>";
+		$done=0;
+	}
+        if (strlen($_POST['extension']) > 6){
+		$error = $error . "Ο εσωτερικός αριθμός δεν μπορεί να είναι τόσα ψηφία<br>";
+		$done=0;
+	}
+	if(strlen($_POST['cid']) > 20 ){
+		$error = $error . "Πολύ μεγάλο CID<br>";
+		$done=0;
+	}
+	if (ereg('[^A-Za-z0-9. ]', $_POST['cid'])){
+		$error = $error . "CID - Μόνο Αγγλικοί χαρακτήρες<br>";
+		$done=0;
+	}
+	if(strlen($_POST['password']) > 14){
+		$error = $error . "Πολύ μεγάλος κωδικός πρόσβασης<br>";
+		$done=0;
+	}
+	if (ereg('[^A-Za-z0-9]', $_POST['password'])){
+		$error = $error . "Λάθος κωδικός πρόσβασης<br>";
+		$done=0;
+	}
+	if (strlen($_POST['password']) < 1){
+		$error = $error . "Ο κωδικός πρόσβασης δεν μπορεί να είναι κενός<br>";
+		$done=0;
+	}
+
+        //check if the extensions is being changed. if so, check that the new extension is free
+        $sql = sprintf("select extension from extensions where user_id='%d'",$_POST['id']);
+        $result = @postg_query($sql, $db);
+	if($result){
+		$t_row = pg_fetch_assoc($result);
+        	if($t_row['extension'] != $_POST['extension']) {
+        		$info = $info . "we got a different extension. validate it.";
+        		$sql = sprintf("select 1 from extensions where extension='%d' and user_id!='%d'",$_POST['extension'],$_POST['id']);
+        		$info = $info . $sql;
+        		$result = @postg_query($sql, $db);
+			if($result){
+				$rows = pg_num_rows($result);
+        			if( $rows  > 0 ) {
+       					$error = $error . "Ο εσωτερικός αριθμός " . $_POST['extension'] . " δεν είναι διαθέσιμος <br>";
+        				$done = 0;
+        			}
+			}
+        	}
+	}
+
+	// check if the device is being changed. if so, first validate the new device for other associations
+	// and only if validated, dissassociate - unprovision the old and add new. look for lines too.
+	// also check if previously we had a device, and now we do not.
+	// lets see if he had a device
+	// also change the sip password
+
+        $device_change = 0;
+        $sql = sprintf("select line,mac_address,model_id from extensions where user_id='%d'",$_POST['id']);
+        $result = @postg_query($sql, $db);
+        $rows = pg_num_rows($result);
+	$t_row = pg_fetch_assoc($result);
+        if($rows  > 0 ) {
+        	//user had a device, let's see if it is changed
+		$tmp = (isset($_POST['device'])) ? explode("-",$_POST['device']): "0-0";
+                $newmodelid = $tmp[0];
+		$info = $info . "ID is: ". $_POST['id'];
+		$info = $info . "POST model is:  " . $newmodelid;
+		$info = $info . "DB model is:  " . $t_row['model_id'];
+        	if ( $newmodelid != $t_row['model_id'] ){
+        		$info = $info . "user asked a new model";
+        		$device_change = 1;
+        	} else { 
+			$info = $info . " no model change";}
+			$info = $info . "POST MAC IS: " . $_POST['device_mac'];
+			$info = $info . "DB  MAC IS: ". $t_row['mac_address'];
+        		if ( $_POST['device_mac'] != $t_row['mac_address']  && $_POST['device_mac'] != '' ){
+        			//user asked a new mac
+        			$device_change = 1;
+        		} else { 
+				$info = $info . " no mac change";
+			}
+			$get_device = explode("-",$_POST['device']);
+			$get_line = $get_device[1];
+			$info = $info . "POST LINE IS: " . $get_device[1];
+			$info = $info . "DB LINE IS: ". $t_row['line'];
+        		if ( $get_device[1] != $t_row['line'] ){
+        			//user asked a different line
+        			$device_change = 1;
+        		} else { 
+				$info = $info . " no line  change";
+			}
+        		if ( $device_change == 1) {
+                                // validate new device. if ok, delete old
+				if ( $get_line == '0' && $get_device= '0' ) {
+					$info = $info . "##############";
+					//user is requesting an empty device. ok
+					//need to unprovision the old device here (only if old was not null)
+					//here the mac should be deleted from the tftp provisioning
+					// and change the sip password
+					$sql = sprintf("update extensions set mac_address = '', line='0', model_id='0' where user_id='%d'",$_POST['id']);
+					$info = $info . $sql;
+					$result = @postg_query($sql, $db);
+					$done = 0;
+				} else {
+                                        $sql =sprintf("select extension,line,mac_address,model_id from extensions where mac_address='%s' and line='%d' and user_id!='%d'",$_POST['device_mac'],$get_line,$_POST['id']);
+                                        $result = @postg_query($sql, $db);
+                                        $rows= pg_num_rows($result);
+                                        if($rows  > 0 ) {
+						$t_row = pg_fetch_assoc($result);
+                                                $error = $error . "Η γραμμή αυτή έχει δωθεί στο εσωτερικό " . $t_row['extension'] . "<br>";
+						$done=0;
+                                        } else {
+                                                $done = 1;
+                                                //need to unprovision the old device here (only if old was not null or not the same)
+                                        }
+				}
+			}
+
+		}
+		if ($done == 1){	
+			$uppermac = strtoupper($_POST['device_mac']);
+			$sql = sprintf("UPDATE extensions set password='%s', name='%s', surname='%s', extension='%d', CallerID='%s', email='%s',mac_address='%s',model_id='%s',line='%s' where user_id='%d'",$_POST['password'],$_POST['name'],$_POST['surname'],$_POST['extension'],$_POST['cid'],$_POST['email'],$uppermac,$newmodelid,$get_device[1],$_POST['id']);
+
+                        $result = @postg_query($sql, $db);
+
+                        //asterisk_gen_configs();
+                        //asterisk_reload();
+
+                        //start with device provisioning
+
+                        $info= $info . $sql . "Επιτυχής αλλαγή";
+			$smarty = new Smarty;
+			$smarty->assign("pages", $pages);
+			$smarty->assign("section", "Διαχείρηση Χρηστών");
+                        $smarty->assign("section_image", "users48.png");
+                        $smarty->assign("selected", "edit");
+                        $smarty->debugging=false;
+                        $smarty->assign("info", $info);
+                        $smarty->assign("data", $data);
+                        $smarty->display("users/header.tpl");
+                        $smarty->display("users/add.tpl");
+		} else {
+
+                        $smarty = new Smarty;
+                        $smarty->assign("pages", $pages);
+                        $smarty->assign("section", "Διαχείρηση Χρηστών");
+                        $smarty->assign("section_image", "users48.png");
+                        $smarty->assign("selected", "edit");
+                        $smarty->debugging=false;
+                        $smarty->assign("data", $data);
+                        $smarty->assign("device_mac", $_POST['device_mac']);
+                        $smarty->assign("extension", $_POST['extension']);
+                        $smarty->assign("name", $_POST['name']);
+                        $smarty->assign("surname", $_POST['surname']);
+                        $smarty->assign("password", $_POST['password']);
+                        $smarty->assign("device", $_POST['device']);
+                        $smarty->assign("email", $_POST['email']);
+                        $smarty->assign("user_id", $_POST['id']);
+                        $smarty->assign("cid", $_POST['cid']);
+                        $smarty->assign("error", $error);
+                        $smarty->display("users/header.tpl");
+                        $smarty->display("users/add.tpl");
+		}
+	}
+?>

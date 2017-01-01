@@ -1,0 +1,8 @@
+{section name=i loop=$data}
+exten => {$data[i].extension},hint,SIP/{$data[i].extension}
+exten => _{$data[i].extension},1,Dial(SIP/{$data[i].extension})
+exten => _{$data[i].extension}{literal},n,Noop(BLINDTR = ${BLINDTRANSFER}){/literal}
+exten => _{$data[i].extension}{literal},n,GotoIf($[${LEN(${BLINDTRANSFER})} > 0]?20){/literal}
+exten => _{$data[i].extension},n,Hangup
+exten => _{$data[i].extension}{literal},20,Dial(SIP/${BLINDTRANSFER:4:3}){/literal}
+{/section}

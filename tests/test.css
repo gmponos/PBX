@@ -1,0 +1,40 @@
+#basic_form {
+font-family:verdana,sans-serif;
+}
+#basic_form p.blockintro {
+color:#666666;
+font-size:11px;
+line-height:14px;
+margin:0pt;
+}
+#basic_form dl {
+}
+#basic_form dt {
+clear:left;
+float:left;
+margin:4px 8px 0pt 0pt;
+padding:0pt;
+text-align:right;
+width:100px;
+font-size:10px;
+}
+#basic_form dd {
+font-size:10px;
+margin:0pt 0pt 5px 0px;
+}
+
+#basic_form div.block {
+background:#F0F0F0 none repeat scroll 0%;
+color:#333333;
+font-size:11px;
+font-weight:normal;
+margin:3px 0pt 25px;
+padding:5px;
+}
+
+#basic_form h2 {
+color:darkgreen;
+font-size:14px;
+margin:0pt 0pt 5px;
+padding:0pt;
+}

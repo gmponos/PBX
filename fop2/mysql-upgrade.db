@@ -1,0 +1,20 @@
+
+USE `fop2`;
+
+CREATE TABLE IF NOT EXISTS `fop2recordings` (
+  `id` int(11) NOT NULL auto_increment,
+  `uniqueid` varchar(50) default NULL,
+  `datetime` datetime default NULL,
+  `ownerextension` varchar(20) default NULL,
+  `targetextension` varchar(20) default NULL,
+  `filename` tinytext,
+  `duration` int(11) default '0',
+  PRIMARY KEY  (`id`),
+  KEY `search` (`ownerextension`,`targetextension`,`datetime`,`duration`),
+  UNIQUE KEY `uni` (`uniqueid`)
+)
+
+ALTER IGNORE TABLE `visual_phonebook` add `owner` varchar(50) default '';
+ALTER IGNORE TABLE `visual_phonebook` add `private` enum('yes','no') default 'no';
+ALTER IGNORE TABLE `visual_phonebook` add `context` varchar(150) default '';
+

@@ -1,0 +1,260 @@
+<?
+ include "inc/auth.php";
+ include "inc/connect.php";
+ include "inc/config.php";
+ include "inc/functions.php";
+ include "inc/libs/SmartyPaginate.class.php";
+ include "inc/pages.php";
+
+$pages = selected_page($_SERVER['SCRIPT_NAME']);
+
+ 	switch ($_GET['action']) {
+	 case 'list':
+    	  if ($_POST){	
+	//	echo "got post: ". "sdate: ". $_SESSION['sdate']. "edate:" . $_SESSION['edate'] . "filter:" . $_SESSION['filter']. "fval:" .$_SESSION['fval'] . " ". $_SESSION['Incoming'] . " " . $_SESSION['Outgoing'];
+			 if (!isset($_POST['sdate'])){
+				$cdr_start_date =  date("d-m-Y",strtotime('now'));
+				$cdr_end_date =  date("d-m-Y",strtotime('now'));
+			 } else {
+				$cdr_start_date = $_POST['sdate'];
+				$cdr_end_date = $_POST['edate'];
+				$_SESSION['sdate'] = $_POST['sdate'];
+				$_SESSION['edate'] = $_POST['edate'];
+			 }
+
+	 		 $smarty = new Smarty;
+			 $smarty->assign("section", "Δεδομένα Κλήσεων");
+			 $smarty->assign("pages", $pages);
+			 $smarty->assign("section_image", "cdr48.png");
+			 $smarty->assign("selected", "list");
+
+			 $sqlfilter='';
+			 unset($_SESSION['filter']);
+			 unset($_SESSION['fval']);
+				if (isset($_POST['fval']) && ($_POST['fval'])){
+				   if ($_POST['filter'] == 'src'){
+					$sqlfilter= sprintf("and src like '%s'", $_POST['fval']."%");
+					$_SESSION['filter'] = 'src';
+					$_SESSION['fval'] = $_POST['fval'];
+				     }
+				 if ($_POST['filter'] == 'dst'){
+					$sqlfilter= sprintf("and dst like '%s'",  $_POST['fval']."%");
+					$_SESSION['filter'] = 'dst';
+					$_SESSION['fval'] = $_POST['fval'];
+				     }
+					$smarty->assign("filter", $_POST['filter']);
+					$smarty->assign("fval", $_POST['fval']);
+					$pagefilter=sprintf("&filter=%s&fval=%s",$_POST['filter'],$_POST['fval']);
+				}
+
+			 $disposql='';
+			 unset($_SESSION['filter2']);
+				 if (isset($_POST['filter2'])){
+					if ($_POST['filter2'] == 'answered'){
+					$disposql= ' and billsec > 0 ';
+					}
+					if ($_POST['filter2'] == 'not_answered'){
+					$disposql= ' and billsec = 0 ';
+					}
+				  $_SESSION['filter2']=$_POST['filter2'];
+			 	  $fdispo=$_POST['filter2'];
+				 } 
+				
+			 unset($_SESSION['Incoming']);
+			 if (isset($_POST['Incoming'])){
+				  $incoming='CHECKED';
+				  $_SESSION['Incoming']='CHECKED';
+				  $pagein="&Incoming=true";
+				  $sql_inject[]="'IN'";
+			 } 
+			 unset($_SESSION['Outgoing']);
+			 if (isset($_POST['Outgoing'])){
+			       	$outgoing='CHECKED';
+				  $_SESSION['Outgoing']='CHECKED';
+				  $pageout="&Outgoing=true";
+				  $sql_inject[]="'OUT'";
+			} 
+			 unset($_SESSION['Internal']);
+			if (isset($_POST['Internal'])){
+				  $internal='CHECKED';
+				  $_SESSION["Internal"]='CHECKED';
+				  $pageint="&Internal=true";
+				  $sql_inject[]="'LOCAL'";
+			} 
+	} 
+	if (!$_POST) { 
+ 	//	echo "NO post: ". "sdate: ". $_SESSION['sdate']. "edate:" . $_SESSION['edate'] . "filter:" . $_SESSION['filter']. "fval:" .$_SESSION['fval'] . " ". $_SESSION['Incoming'] . " " . $_SESSION['Outgoing'];
+
+		    $smarty = new Smarty;
+                    $smarty->assign("section", "Δεδομένα Κλήσεων");
+                    $smarty->assign("section_image", "cdr48.png");
+		    $smarty->assign("pages", $pages);
+                    $smarty->assign("selected", "list");
+   
+		    if (!$_SESSION['sdate']){
+                                $cdr_start_date =  date("d-m-Y",strtotime('now'));
+                                $cdr_end_date =  date("d-m-Y",strtotime('now'));
+                        } else {
+                                $cdr_start_date = $_SESSION['sdate'];
+                                $cdr_end_date = $_SESSION['edate'];
+                                $sqlfilter='';
+                                if ($_SESSION['filter'] == 'dst'){
+                                        $sqlfilter= sprintf("and dst like '%s'", $_SESSION['fval']."%");
+                                }
+                                if ($_SESSION['filter'] == 'src'){
+                                        $sqlfilter= sprintf("and src like '%s'", $_SESSION['fval']."%");
+                                }
+				$smarty->assign("filter", $_SESSION['filter']);
+				$smarty->assign("fval", $_SESSION['fval']);
+
+				$disposql='';
+                                  if ($_SESSION['filter2'] == 'answered'){
+                                      $disposql= 'and billsec > 0';
+                                     }
+                                  if ($_SESSION['filter2'] == 'not_answered'){
+                                      $disposql= 'and billsec = 0';
+                                     }
+				$fdispo = $_SESSION['filter2'];
+				
+                                if ($_SESSION['Incoming']){
+                                  $incoming='CHECKED';
+                                  $pagein="&Incoming=true";
+                                  $sql_inject[]="'IN'";
+                                }
+                               if ($_SESSION['Outgoing']){
+                                  $outgoing='CHECKED';
+                                  $pageout="&Outgoing=true";
+                                  $sql_inject[]="'OUT'";
+                                }
+                               if ($_SESSION['Internal']){
+                                  $internal='CHECKED';
+                                  $pageint="&Internal=true";
+                                  $sql_inject[]="'LOCAL'";
+                                }
+                      }
+	}
+
+
+		$page=$_GET["page"];
+		If($page == "") $page=1;
+		$pageOffset= ($page-1)*$rows_per_page;
+		
+
+		$sqlsdate = mysqldate($cdr_start_date,start);
+		$sqledate = mysqldate($cdr_end_date,end);
+		$sql = "SELECT calldate,src,dst,channel,split_part(split_part(dstchannel,'-',1),'/',2) as dstchan,billsec,disposition,direction,userfield,accountcode,uniqueid,recording FROM cdr WHERE (calldate between '$sqlsdate' and '$sqledate') $disposql $sqlfilter and direction in ( ";
+		$totalsql = "SELECT count(*) AS total FROM cdr WHERE (calldate between '$sqlsdate' and '$sqledate') $sqlfilter $disposql and direction in ( ";
+
+		  if ($sql_inject != ''){
+                  $to_inject .= join(',', $sql_inject);
+		  }
+		  $sql = $sql . $to_inject .") ORDER BY calldate DESC "; 
+		  $totalsql =  $totalsql . $to_inject . ")";
+		  $pagesql = sprintf("LIMIT %d OFFSET %d", $rows_per_page, $pageOffset);
+		  $sql = $sql . $pagesql; 
+
+		if(($result = @postg_query($sql, $db)) == 0)
+                        {
+                          echo "Database error";
+			  echo $sql;
+                        }
+                $data = array();
+                while( $row = pg_fetch_assoc($result))
+                 	{ if ($_SESSION['username'] != 'admin') {
+				 $look4file='/var/www/rec/' . $row[uniqueid] . '.wav';
+				 if(file_exists($look4file)) {
+				 	$recfile=$row[uniqueid];
+				 }
+				 else {
+				$recfile='';
+				} 
+			 }
+			 $mydispo=numdispo($row[disposition],$row[direction]);
+			 if ( $row[billsec] > 0 ){
+			    $formated_bill=sec2hms($row[billsec]);
+			 } else {$formated_bill=0;}
+			 $daytime = date("d-m-Y" .  " - " . "H:i:s",strtotime($row[calldate]));
+				
+
+			 if ( $row[direction]  == 'IN' ) {
+                         	$destination = ($row[dstchan]);
+			 }
+			 
+			 if ( $row[direction]  == 'OUT' ||  $row[direction] == 'LOCAL' ) {
+                         	$destination = ($row[dst]);
+			 }
+			 
+			 $source =$row[src];
+
+			 $test = array(calldate=>$daytime,src=>$source,dst=>$destination,billsec=>$formated_bill,disposition=>$mydispo,accountcode=>$row[accountcode],rec=>$recfile);
+			 $data[] = $test;
+		 	}
+		$t_result = @postg_query($totalsql, $db);
+		$t_row = pg_fetch_assoc($t_result);
+                $total_records = $t_row['total'];
+		$NumberOfPages=ceil($total_records/$rows_per_page);
+		$remaining_records = $total_records - (($NumberOfPages -1) * $rows_per_page);
+		$pageFirstRec = $rows_per_page * $page - $rows_per_page + 1;
+			if ( $NumberOfPages == $page ) {
+				$pageLastRec = ($rows_per_page * ($page -1) + $remaining_records);
+			  }else { $pageLastRec = $pageFirstRec + $rows_per_page -1;
+			}
+		$smarty->debugging = false;
+		$smarty->assign("data", $data);
+		$smarty->assign("sdate", $cdr_start_date);
+		$smarty->assign("edate", $cdr_end_date);
+		$smarty->assign("total_records", $total_records);
+		$smarty->assign("rows_in_display", $rows_per_page);
+		$smarty->assign("current_page", $page);
+		$smarty->assign("number_of_pages", $NumberOfPages);
+		$smarty->assign("first_rec", $pageFirstRec);
+		$smarty->assign("last_rec", $pageLastRec);
+		$smarty->assign("gotIncoming", $incoming);
+		$smarty->assign("gotOutgoing", $outgoing);
+		$smarty->assign("gotInternal", $internal);
+		$smarty->assign("filter2", $fdispo);
+		//$smarty->assign("sqldebug", $sql);
+                $smarty->display("header.tpl");
+                $smarty->display("cdr/content.tpl");
+	 break;
+	
+	 case 'stats':
+ 		$smarty = new Smarty;
+ 		$smarty->assign("section", "Στατιστικά");
+		$smarty->assign("section_image", "cdr48.png");
+		$smarty->assign("pages", $pages);
+		$smarty->assign("selected", "stats");
+ 		$smarty->display("header.tpl");
+ 		$smarty->display("cdr/stats.tpl");
+	 break;
+ 	
+	 case 'start':
+		$cdr_start_date =  date("d-m-Y",strtotime('now'));
+                $cdr_end_date =  date("d-m-Y",strtotime('now'));
+		$smarty = new Smarty;
+		$smarty->debugging = false;
+                $smarty->assign("section", "Δεδομένα Κλήσεων");
+		$smarty->assign("section_image", "cdr48.png");
+		$smarty->assign("pages", $pages);
+                $smarty->assign("selected", "list");
+		$smarty->assign("sdate", $cdr_start_date);
+                $smarty->assign("edate", $cdr_end_date);
+		$smarty->assign("gotIncoming", 'CHECKED');
+                $smarty->assign("gotOutgoing", 'CHECKED');
+                $smarty->assign("gotInternal", 'CHECKED');
+		$smarty->assign("filter2", 'all');
+                $smarty->assign("fromStart", 'true');
+		$smarty->display("header.tpl");
+                $smarty->display("cdr/content.tpl");
+	 break;
+
+	 default:
+ 		$smarty = new Smarty;
+ 		$smarty->assign("section", "Κλήσεις");
+		$smarty->assign("section_image", "cdr48.png");
+		$smarty->assign("pages", $pages);
+ 		$smarty->display("header.tpl");
+ 		$smarty->display("cdr/content.tpl");
+	}
+
+?>

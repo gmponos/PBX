@@ -1,0 +1,75 @@
+<ul id="maintab">
+{section name=i loop=$pages}
+<li {if $pages[i].is_selected eq '1'} class="selected" {/if}><a href="{$pages[i].page}"><img width="16" height="16" align="Texttop" border="0" src="images/{$pages[i].image}">{$pages[i].name}</a></li>
+{/section}
+</ul>
+<div id="tabcontent" class="clearfix"><ul>
+{if $selected eq 'list'}
+<li class="selected"><a href="extensions.php">Έγγραφες</a></li>
+{else}
+<li><a href="extensions_edit.php">Έγγραφες</a></li>
+{/if}
+{if $selected eq 'add'}
+<li class="selected"><a href="extensions_edit.php">Προσθήκη</a></li>
+{else}
+<li><a href="extensions_edit.php">Προσθήκη</a></li>
+{/if}
+</ul>
+</div>
+</div>
+
+{if $selected eq 'list'}
+<div id="mainContent">
+
+<h2 class='title'> Εσωτερικά Νούμερα </h2>
+
+{if $info ne ''}
+<div id="info" class="info">
+{$info}
+</div>
+{/if}
+
+      <table class="kold">
+       <tr>
+        <td class="hed">Εσωτερικό</td>
+        <td class="hed">Χρήστης</td>
+        <td class="hed">Email</td>
+        <td class="hed">Πρόσβαση</td>
+        <td class="hed">Τμήμα</td>
+        <td class="hed">Τύπος συσκευής</td>
+        <td class="hed">Mac Address</td>
+        <td class="hed" style="width: 20px;">&nbsp;</td>
+        <td class="hed" style="width: 20px;">&nbsp;</td>
+      </tr>
+{section name=i loop=$data}
+        <tr class="{cycle values="odd,even"}">
+            <td align=center>{$data[i].extension}</td>
+            <td align=center>{$data[i].name}</td>
+            <td align=center>{$data[i].email}</td>
+            <td align=center>{$data[i].context}</td>
+            <td align=center>{$data[i].group}</td>
+            <td align=center>{$data[i].device}</td>
+            <td align=center>{$data[i].mac}</td>
+            <td align=center>
+            <form id="within_table" name=edit_{$data[i].user_id} method="POST" action="extensions_edit.php">
+            <input type="Hidden" name="id" value="{$data[i].user_id}">
+            <input type="image" src='images/edit-16.png' title="Πατήστε για επεξεργασία" />
+            </form>
+            </td>
+            <td align=center>
+	    <form id="within_table" name=del_{$data[i].user_id} method="POST" action="extensions.php?action=delete" onclick="if (confirm('Θέλετε να διαγράψετε το εσωτερικό;')) return true; else return false;">
+            <input type="Hidden" name="id" value="{$data[i].user_id}">
+            <input type="image" src='images/del-16.png' title="Πατήστε για διαγραφή" /></form></td>
+	    </form>
+            </td>
+        </tr>
+{/section}
+    </table>
+</div>
+
+{/if}
+  </td>
+  </tr>
+  </table>
+<br/>
+</div>

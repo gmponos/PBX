@@ -1,0 +1,82 @@
+form {  /* set width in form, not fieldset (still takes up more room w/ fieldset width */
+  font:100% verdana,arial,sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+form fieldset {
+  border-color: #255480;
+  border-width: 1px;
+  border-style: solid;
+  padding: 10px;        /* padding in fieldset support spotty in IE */
+  margin: 10;
+}
+
+form fieldset legend {
+	font-size:1.1em; /* bump up legend font size, not too large or it'll overwrite border on left */
+                       /* be careful with padding, it'll shift the nice offset on top of border  */
+}
+
+form label { 
+	display: block;  /* block float the labels to left column, set a width */
+	float: left; 
+	width: 300px; 
+	padding: 0; 
+	margin: 0px 0 0; /* set top margin same as form input - textarea etc. elements */
+	text-align: right; 
+  	color: #255480;
+}
+
+form input,select, form textarea {
+	/* display: inline; inline display must not be set or will hide submit buttons in IE 5x mac */
+	width:auto;      /* set width of form elements to auto-size, otherwise watch for wrap on resize */
+	margin:5px 0 0 10px; /* set margin on left of form elements rather than right of
+                              label aligns textarea better in IE */
+}
+
+form input#reset {
+	margin-left:0px; /* set margin-left back to zero on reset button (set above) */
+}
+
+textarea { overflow: auto; }
+
+form small {
+	display: block;
+	margin: 0 0 5px 160px; /* instructions/comments left margin set to align w/ right column inputs */
+	padding: 1px 3px;
+	font-size: 88%;
+}
+
+form .required{font-weight:bold;} /* uses class instead of div, more efficient */
+
+form br {
+	clear:left; /* setting clear on inputs didn't work consistently, so brs added for degrade */
+}
+
+form#within_table {
+min-width: 30px;
+  max-width: 30px;
+  width: 30px;
+}
+
+.form table {
+    border-width: 0;
+    margin: 0 0 1px;
+    padding: 0;
+}
+
+.left {
+    text-align: right;
+    background: none repeat scroll 0 0 #ffffff;
+    color: #255480;
+    padding: 2px 6px;
+    vertical-align: baseline;
+}
+
+.right {
+    text-align: left;
+    background: none repeat scroll 0 0 #F0F0F3;
+    color: #255480;
+    padding: 2px 6px;
+    vertical-align: baseline;
+}
